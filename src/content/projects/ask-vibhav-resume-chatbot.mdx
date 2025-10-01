@@ -1,0 +1,68 @@
+---
+title: Ask-Vibhav Resume Chatbot
+date: "2025-04-10"
+summary: A GPT-powered chatbot trained on my resume! It answers questions about my background, technical skills, education, and projects, just like an interactive CV.
+tags: ["Resume", "AI", "Chatbot", "Groq API"]
+repo: https://github.com/Vibhav-Misra/AskVibhav
+demo: https://ask-vibhav-kj2hj96vj-vibhavs-projects-35932f5a.vercel.app/
+---
+
+◉ An interactive chatbot trained on my resume, deployed on Vercel, powered by Groq LLM API.
+
+◉ Users can ask questions about my background, skills, education, experience, or projects and get fast, on-topic answers directly from the resume.
+<p style="margin-top:2rem;"></p>
+
+---
+
+<p style="margin-top:2rem;"></p>
+◉ **Overview**
+<p style="margin-top:1rem;"></p>
+- ∘ Uses a fixed knowledge base (My resume text) – no need for a vector DB.
+- ∘ Built as a Next.js / Vercel serverless API endpoint (/api/chat).
+- ∘ Talks to Groq’s OpenAI-compatible Chat Completions API with modern LLaMA 3 models.
+- ∘ Front-end is a minimal chat UI deployed along with the backend.
+- ∘ The project is designed to be cheap to run (no RAG or embeddings) and simple to maintain.
+<p style="margin-top:2rem;"></p>
+
+---
+
+<p style="margin-top:2rem;"></p>
+◉ **Architecture & Design**
+<p style="margin-top:1rem;"></p>
+- ∘ **High-Level Architecture**
+<p style="margin-top:1rem;"></p>
+![High-Level Architecture](public\images\flowchart2.png)
+<p style="margin-top:2rem;"></p>
+
+---
+
+<p style="margin-top:2rem;"></p>
+◉ **Workflow**
+<p style="margin-top:1rem;"></p>
+```bash
+# 1. Clone the Repo
+git clone https://github.com/your-handle/ask-vibhav.git
+cd ask-vibhav
+
+# 2. Install Dependencies
+npm install
+# or
+yarn install
+
+# 3. Set Environment Variables
+# Create a .env.local file (for local dev) and add:
+GROQ_API_KEY=your-groq-key-here
+
+# 4. Configure Node Runtime (important on Vercel)
+# Either in package.json:
+{ "engines": { "node": "20.x" } }
+
+# or in vercel.json:
+{ "functions": { "api/*.js": { "runtime": "nodejs20.x" } } }
+
+# 5. Run Locally
+# open http://localhost:3000
+npm run dev
+
+# 6. Deploy to Vercel
+vercel deploy
