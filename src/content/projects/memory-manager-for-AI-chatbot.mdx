@@ -1,0 +1,71 @@
+---
+title: Memory Manager for AI Chatbot
+date: "2025-07-25"
+summary: Designed memory‑based personalization (episodic + semantic) over MongoDB; improved continuity and engagement.
+tags: ["AWS", "MongoDB", "Personalization"]
+repo: https://github.com/Vibhav-Misra/memory-manager-for-AI-chatbot
+---
+
+◉ A memory management service to allow an AI chatbot to remember conversations or user preferences.
+
+◉ This system automatically extracts, scores, and manages meaningful informationfrom conversations, creating a persistent memory system.
+<p style="margin-top:2rem;"></p>
+
+---
+
+<p style="margin-top:2rem;"></p>
+◉ **Features**
+<p style="margin-top:1rem;"></p>
+- ∘ Automatic memory extraction from conversations.
+- ∘ AI-powered scoring and decision making.
+- ∘ Human oversight for uncertain memories.
+- ∘ MongoDB storage.
+- ∘ Real-time processing via REST API.
+- ∘ Admin interface for memory review.
+<p style="margin-top:2rem;"></p>
+
+---
+
+<p style="margin-top:2rem;"></p>
+◉ **Architecture & Design**
+<p style="margin-top:1rem;"></p>
+- ∘ **High-Level Architecture**
+<p style="margin-top:1rem;"></p>
+![High-Level Architecture](public\images\flowchart1.png)
+<p style="margin-top:2rem;"></p>
+
+---
+
+<p style="margin-top:2rem;"></p>
+◉ **Workflow**
+<p style="margin-top:1rem;"></p>
+```bash
+# 1. Clone/Download the Project
+# Navigate to your desired directory
+cd /path/to/your/project
+
+# 2. Install Python Dependencies
+# Install all required packages
+pip install -r requirements.txt
+
+# 3. Start MongoDB
+# On macOS/Linux:
+mongod
+
+# On Windows:
+"C:\Program Files\MongoDB\Server\8.0\bin\mongod.exe"
+
+# 4. Create Environment Configuration
+# Run the startup script (creates .env file)
+python run_service.py
+
+# 5. Verify Installation
+# Test if the service can start
+python test_service.py
+
+# If successful, start the main service
+python run_service.py
+
+# 6. Start Admin Interface (Optional)
+# In a new terminal
+streamlit run admin_ui.py

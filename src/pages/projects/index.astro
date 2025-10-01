@@ -7,7 +7,7 @@ const projects = (await getCollection('projects')).sort((a,b) => +new Date(b.dat
 <Base title="Projects — Vibhav Misra">
 <section class="mx-auto max-w-6xl px-4 py-12">
 <h1 class="text-3xl font-semibold">Projects</h1>
-<p class="mt-2 text-slate-300">Curated work with code, notebooks, and demos.</p>
+<p class="mt-2 text-slate-300">Curated work with code and live-demo. Click on the project tile for full documentation.</p>
 <div class="mt-6 grid md:grid-cols-2 lg:grid-cols-3 gap-5">
 {projects.map((p) => <ProjectCard project={p} />)}
 </div>
