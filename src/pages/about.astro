@@ -1,9 +1,83 @@
 ---
 import Base from '../layouts/Base.astro';
+import CurrentlyLearning from '../components/CurrentlyLearning.astro';
+import BookStack from '../components/BookStack.astro';
+
+const topics = [
+  "MLflow",
+  "Probability Distributions",
+  "Exploratory Data Analysis",
+  "Linear Predictors",
+  "Correlation",
+  "Regression",
+  "Gradient Descent",
+];
+
+const currentlyReading = [
+  {
+    title: "Misery",
+    author: "Stephen King",
+    cover: "images/covers/misery.jpg",
+    link: "https://en.wikipedia.org/wiki/Misery_(novel)",
+  },
+
+  {
+    title: "Angels and Demons",
+    author: "Dan Brown",
+    cover: "/images/covers/angelsAndDemons.jpg",
+    link: "https://en.wikipedia.org/wiki/Angels_%26_Demons",
+  },
+];
+
+const recentlyRead = [
+  {
+    title: "'Salem's Lot'",
+    author: "Stephen King",
+    cover: "/images/covers/salemsLot.jpg",
+    link: "https://en.wikipedia.org/wiki/%27Salem%27s_Lot",
+  },
+  {
+    title: "The Shining",
+    author: "Stephen King",
+    cover: "/images/covers/theShining.jpg",
+    link: "https://en.wikipedia.org/wiki/The_Shining_(novel)",
+  },
+  {
+    title: "Pet Sematary",
+    author: "Stephen King",
+    cover: "/images/covers/petSematary.jpg",
+    link: "https://en.wikipedia.org/wiki/Pet_Sematary",
+  },
+  {
+    title: "Gone Girl",
+    author: "Gillian Flynn",
+    cover: "/images/covers/goneGirl.jpg",
+    link: "https://en.wikipedia.org/wiki/Gone_Girl_(novel)",
+  },
+  {
+    title: "And Then There Were None",
+    author: "Agatha Christie",
+    cover: "/images/covers/andThenThereWereNone.jpg",
+    link: "https://en.wikipedia.org/wiki/And_Then_There_Were_None",
+  },
+];
 ---
 <Base title="About — Vibhav Misra">
 <section class="mx-auto max-w-6xl px-4 py-12 prose prose-invert">
 <h1>About</h1>
-<p>Data Science master’s student in NYC (Pace University). Passionate about ML systems, experimentation, and clear data storytelling.</p>
+<p>Hi, I’m Vibhav Misra, a Data Science master’s student at Pace University in New York City. I’m passionate about building practical machine learning systems and turning complex data into clear, actionable insights.</p>
+  
+<p>Before moving to NYC, I completed my bachelor’s degree in Computer Science with a specialization in Artificial Intelligence and Machine Learning.</p>
+  
+<p>Beyond the classroom, I explore how data and storytelling can intersect, whether that’s through well-designed dashboards, interactive visualizations, or writing about my learning process. I see data science not just as algorithms, but as a way to explain, predict, and engage.</p>
+  
 </section>
+
+<div class="mx-auto max-w-3xl px-4">
+    <CurrentlyLearning items={topics} intervalMs={2200} title="Currently learning" />
+</div>
+
+<div class="mx-auto max-w-3xl px-4 mt-8">
+    <BookStack currentBooks={currentlyReading} readBooks={recentlyRead} title="My Book Stack" />
+</div>
 </Base>

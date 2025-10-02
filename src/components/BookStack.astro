@@ -1,0 +1,75 @@
+---
+/**
+ * Props:
+ * - readBooks: object[] 
+ * - currentBooks: object[] 
+ * - title?: string 
+ */
+interface Book {
+  title: string;
+  author: string;
+  cover: string; 
+  link?: string; 
+}
+
+const {
+  readBooks = [], 
+  currentBooks = [],
+  title = "My Book Stack",
+} = Astro.props;
+---
+
+<div class="mx-auto w-full rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur">
+  <div class="flex items-center gap-2">
+    <span class="text-sm uppercase tracking-wide text-slate-400">{title}</span>
+    <span class="h-px flex-1 bg-white/10"></span>
+  </div>
+
+  <div class="mt-4">
+    {currentBooks.length > 0 && (
+      <div>
+        <h3 class="text-sm uppercase tracking-wider text-slate-400 font-medium mb-2">Currently Reading</h3>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {currentBooks.map((book) => (
+            <a href={book.link} target="_blank" rel="noopener noreferrer" class="group block">
+              <div class="relative w-full aspect-[2/3] overflow-hidden rounded-md shadow-lg">
+                <img
+                  src={book.cover}
+                  alt={`Book cover for ${book.title}`}
+                  class="w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
+                />
+              </div>
+              <div class="mt-2 text-center">
+                <p class="text-sm md:text-base font-medium text-slate-100 group-hover:text-emerald-400 transition-colors">{book.title}</p>
+                <p class="text-xs text-slate-400">{book.author}</p>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    )}
+
+    {readBooks.length > 0 && (
+      <div class="mt-6">
+        <h3 class="text-sm uppercase tracking-wider text-slate-400 font-medium mb-2">Recently Read</h3>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {readBooks.map((book) => (
+            <a href={book.link} target="_blank" rel="noopener noreferrer" class="group block">
+              <div class="relative w-full aspect-[2/3] overflow-hidden rounded-md shadow-lg">
+                <img
+                  src={book.cover}
+                  alt={`Book cover for ${book.title}`}
+                  class="w-full h-full object-cover transition-transform duration-300 ease-in-out group-hover:scale-105"
+                />
+              </div>
+              <div class="mt-2 text-center">
+                <p class="text-sm md:text-base font-medium text-slate-100 group-hover:text-emerald-400 transition-colors">{book.title}</p>
+                <p class="text-xs text-slate-400">{book.author}</p>
+              </div>
+            </a>
+          ))}
+        </div>
+      </div>
+    )}
+  </div>
+</div>
