@@ -27,14 +27,19 @@ jobs:
           node-version: 20
           cache: npm
 
-      - name: Install dependencies
+      - name: Install deps
         run: npm ci
 
       - name: Build site
-        run: npm run build   # Astro will output to ./dist by default
+        run: npm run build   # Astro outputs to ./dist
 
+      # NEW: configure latest Pages runtime
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      # UPDATED: use latest upload-pages-artifact
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v2
+        uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist
 
@@ -45,6 +50,7 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
+      # keep the latest deploy-pages
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
