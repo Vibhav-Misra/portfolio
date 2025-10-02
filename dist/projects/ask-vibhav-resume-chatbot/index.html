@@ -1,28 +1,24 @@
-<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Ask-Vibhav Resume Chatbot — Project</title><meta name="description" content="Decoding the world through data."><link rel="icon" href="/favicon.svg"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..800&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet"><link rel="stylesheet" href="/_astro/about.CZOxed7m.css"></head> <body class="min-h-screen flex flex-col font-[Inter]"> <header class="sticky top-0 z-40 backdrop-blur border-b border-white/10 bg-black/20"> <nav class="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between"> <a href="/" class="text-xl font-semibold tracking-tight">VM</a> <ul class="flex gap-5 text-sm text-slate-300"> <li><a class="hover:text-white" href="/projects/">Projects</a></li> <li><a class="hover:text-white" href="/notebooks/">Notebooks</a></li> <li><a class="hover:text-white" href="/visualizations/">Viz</a></li> <li><a class="hover:text-white" href="/snippets/">Snippets</a></li> <li><a class="hover:text-white" href="/blog/">Blog</a></li> <li><a class="hover:text-white" href="/about">About</a></li> <li><a class="hover:text-white" href="/contact">Contact</a></li> </ul> </nav> </header> <main class="flex-1">  <article class="mx-auto max-w-3xl px-4 py-12 prose prose-invert"> <h1>Ask-Vibhav Resume Chatbot</h1> <p class="text-slate-300 !mt-0">A GPT-powered chatbot trained on my resume! It answers questions about my background, technical skills, education, and projects, just like an interactive CV.</p> <div class="not-prose mt-3 flex flex-wrap gap-2"> <span class="text-xs bg-white/10 px-2 py-0.5 rounded-full">Resume</span><span class="text-xs bg-white/10 px-2 py-0.5 rounded-full">AI</span><span class="text-xs bg-white/10 px-2 py-0.5 rounded-full">Chatbot</span><span class="text-xs bg-white/10 px-2 py-0.5 rounded-full">Groq API</span> </div> <div class="not-prose mt-5 flex gap-2"> <a href="https://github.com/Vibhav-Misra/AskVibhav" target="_blank" rel="noopener noreferrer" class="rounded-lg border border-white/15 px-3 py-1.5 text-sm bg-white/5 hover:border-white/30">
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Ask-Vibhav Resume Chatbot — Project</title><meta name="description" content="Decoding the world through data."><link rel="icon" href="/favicon.svg"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..800&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet"><link rel="stylesheet" href="/_astro/about.BGQfwXKw.css"></head> <body class="min-h-screen flex flex-col font-[Inter]"> <header class="sticky top-0 z-40 backdrop-blur border-b border-white/10 bg-black/20"> <nav class="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between"> <a href="/" class="text-xl font-semibold tracking-tight">VM</a> <ul class="flex gap-5 text-sm text-slate-300"> <li><a class="hover:text-white" href="/projects/">Projects</a></li> <li><a class="hover:text-white" href="/notebooks/">Notebooks</a></li> <li><a class="hover:text-white" href="/visualizations/">Viz</a></li> <li><a class="hover:text-white" href="/snippets/">Snippets</a></li> <li><a class="hover:text-white" href="/blog/">Blog</a></li> <li><a class="hover:text-white" href="/about">About</a></li> <li><a class="hover:text-white" href="/contact">Contact</a></li> </ul> </nav> </header> <main class="flex-1">  <article class="mx-auto max-w-3xl px-4 py-12 prose prose-invert"> <h1>Ask-Vibhav Resume Chatbot</h1> <p class="text-slate-300 !mt-0">A GPT-powered chatbot trained on my resume! It answers questions about my background, technical skills, education, and projects, just like an interactive CV.</p> <div class="not-prose mt-3 flex flex-wrap gap-2"> <span class="text-xs bg-white/10 px-2 py-0.5 rounded-full">Resume</span><span class="text-xs bg-white/10 px-2 py-0.5 rounded-full">AI</span><span class="text-xs bg-white/10 px-2 py-0.5 rounded-full">Chatbot</span><span class="text-xs bg-white/10 px-2 py-0.5 rounded-full">Groq API</span> </div> <div class="not-prose mt-5 flex gap-2"> <a href="https://github.com/Vibhav-Misra/AskVibhav" target="_blank" rel="noopener noreferrer" class="rounded-lg border border-white/15 px-3 py-1.5 text-sm bg-white/5 hover:border-white/30">
 GitHub Repo
 </a> <a href="https://ask-vibhav-kj2hj96vj-vibhavs-projects-35932f5a.vercel.app/" target="_blank" rel="noopener noreferrer" class="rounded-lg border border-white/15 px-3 py-1.5 text-sm bg-white/5 hover:border-white/30">
 Live Demo
 </a> </div> <div class="mt-8"> <p>◉ An interactive chatbot trained on my resume, deployed on Vercel, powered by Groq LLM API.</p>
 <p>◉ Users can ask questions about my background, skills, education, experience, or projects and get fast, on-topic answers directly from the resume.</p>
-<p style="margin-top:2rem;"></p>
 <hr/>
-<p style="margin-top:2rem;"></p>
 <p>◉ <strong>Overview</strong></p>
 <p style="margin-top:1rem;"></p>
 <ul>
-<li>∘ Uses a fixed knowledge base (My resume text) – no need for a vector DB.</li>
-<li>∘ Built as a Next.js / Vercel serverless API endpoint (/api/chat).</li>
-<li>∘ Talks to Groq’s OpenAI-compatible Chat Completions API with modern LLaMA 3 models.</li>
-<li>∘ Front-end is a minimal chat UI deployed along with the backend.</li>
-<li>∘ The project is designed to be cheap to run (no RAG or embeddings) and simple to maintain.</li>
+<li>Uses a fixed knowledge base (My resume text) – no need for a vector DB.</li>
+<li>Built as a Next.js / Vercel serverless API endpoint (/api/chat).</li>
+<li>Talks to Groq’s OpenAI-compatible Chat Completions API with modern LLaMA 3 models.</li>
+<li>Front-end is a minimal chat UI deployed along with the backend.</li>
+<li>The project is designed to be cheap to run (no RAG or embeddings) and simple to maintain.</li>
 </ul>
-<p style="margin-top:2rem;"></p>
 <hr/>
-<p style="margin-top:2rem;"></p>
 <p>◉ <strong>Architecture &amp; Design</strong></p>
 <p style="margin-top:1rem;"></p>
 <ul>
-<li>∘ <strong>High-Level Architecture</strong></li>
+<li><strong>High-Level Architecture</strong></li>
 </ul>
 <p style="margin-top:1rem;"></p>
 <p><img src="/images/flowchart2.png" alt="High-Level Architecture"/></p>

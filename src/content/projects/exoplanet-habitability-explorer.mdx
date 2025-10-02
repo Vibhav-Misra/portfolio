@@ -10,46 +10,40 @@ demo: https://huggingface.co/spaces/VibzMiz/exoplanet-habitability-explorer
 ◉ An end-to-end data-science & ML project that explores, ranks, and visualizes thousands of confirmed exoplanets using data from the NASA Exoplanet Archive.
 
 ◉ The project demonstrates data sourcing, feature engineering, interactive visualization, and ML classification in a single deployable web app.
-<p style="margin-top:2rem;"></p>
 
 ---
 
-<p style="margin-top:2rem;"></p>
 ◉ **Features**
 <p style="margin-top:1rem;"></p>
-- ∘ **Live NASA data pull** – fetches the latest PSCompPars catalog from the NASA Exoplanet Archive via its TAP API (`src/fetch_data.py`)
+- **Live NASA data pull** – fetches the latest PSCompPars catalog from the NASA Exoplanet Archive via its TAP API (`src/fetch_data.py`)
 <p style="margin-top:1rem;"></p>
-- ∘ **Explainable habitability score** – composite of physical parameters such as insolation, radius, distance, stellar temperature, etc.
+- **Explainable habitability score** – composite of physical parameters such as insolation, radius, distance, stellar temperature, etc.
 <p style="margin-top:1rem;"></p>
-- ∘ **Interactive web app (Streamlit)** --
-  - ⅰ) Filter by radius, insolation, discovery year, distance, etc.
-  - ⅱ) Weight presets (Conservative HZ / Optimistic HZ / Observation-friendly) plus sliders for custom scoring
-  - ⅲ) Click-to-inspect planet details with score-component breakdown
-  - ⅳ) Compare tray for side-by-side comparison of up to 3 planets
-  - ⅴ) Downloadable filtered table
+- **Interactive web app (Streamlit)** --
+  - Filter by radius, insolation, discovery year, distance, etc.
+  - Weight presets (Conservative HZ / Optimistic HZ / Observation-friendly) plus sliders for custom scoring
+  - Click-to-inspect planet details with score-component breakdown
+  - Compare tray for side-by-side comparison of up to 3 planets
+  - Downloadable filtered table
   <p style="margin-top:1rem;"></p>
-- ∘ **ML classifier** – trains a Random-Forest model to predict *“optimistic habitable-zone candidate”* label from non-leaking astrophysical & engineered features  
+- **ML classifier** – trains a Random-Forest model to predict *“optimistic habitable-zone candidate”* label from non-leaking astrophysical & engineered features  
   (e.g. luminosity proxy, semi-major axis, estimated insolation)
-  - ⅰ) ROC-AUC / PR-AUC / F1 displayed in the app
-  - ⅱ) Optional toggle to show predicted probability & label in the UI
+  - ROC-AUC / PR-AUC / F1 displayed in the app
+  - Optional toggle to show predicted probability & label in the UI
   <p style="margin-top:1rem;"></p>
-- ∘ **Clean architecture & reproducibility** – separate training script, model artifacts in `/models`, Streamlit app in `app.py`
-<p style="margin-top:2rem;"></p>
+- **Clean architecture & reproducibility** – separate training script, model artifacts in `/models`, Streamlit app in `app.py`
 
 ---
 
-<p style="margin-top:2rem;"></p>
 ◉ **Tech Stack**
 <p style="margin-top:1rem;"></p>
-- ∘ **Python:** `pandas`, `numpy`, `requests`, `pyarrow`
-- ∘ **Data science / ML:** `scikit-learn`, `joblib`
-- ∘ **Web app / viz:** `Streamlit`, `Plotly`, `streamlit-plotly-events`
-- ∘ **Data source:** NASA Exoplanet Archive TAP API
-<p style="margin-top:2rem;"></p>
+- **Python:** `pandas`, `numpy`, `requests`, `pyarrow`
+- **Data science / ML:** `scikit-learn`, `joblib`
+- **Web app / viz:** `Streamlit`, `Plotly`, `streamlit-plotly-events`
+- **Data source:** NASA Exoplanet Archive TAP API
 
 ---
 
-<p style="margin-top:2rem;"></p>
 ◉ **Workflow**
 <p style="margin-top:1rem;"></p>
 ```bash
