@@ -1,0 +1,69 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Exoplanet Habitability Explorer — Project</title><meta name="description" content="Decoding the world through data."><link rel="icon" href="/favicon.svg"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..800&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet"><link rel="stylesheet" href="/_astro/about.CZOxed7m.css"></head> <body class="min-h-screen flex flex-col font-[Inter]"> <header class="sticky top-0 z-40 backdrop-blur border-b border-white/10 bg-black/20"> <nav class="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between"> <a href="/" class="text-xl font-semibold tracking-tight">VM</a> <ul class="flex gap-5 text-sm text-slate-300"> <li><a class="hover:text-white" href="/projects/">Projects</a></li> <li><a class="hover:text-white" href="/notebooks/">Notebooks</a></li> <li><a class="hover:text-white" href="/visualizations/">Viz</a></li> <li><a class="hover:text-white" href="/snippets/">Snippets</a></li> <li><a class="hover:text-white" href="/blog/">Blog</a></li> <li><a class="hover:text-white" href="/about">About</a></li> <li><a class="hover:text-white" href="/contact">Contact</a></li> </ul> </nav> </header> <main class="flex-1">  <article class="mx-auto max-w-3xl px-4 py-12 prose prose-invert"> <h1>Exoplanet Habitability Explorer</h1> <p class="text-slate-300 !mt-0">Interactive exploration of 5,000+ exoplanets (NASA PSCompPars), explainable habitability score + RF classifier, presets, details drawer, and compare tray.</p> <div class="not-prose mt-3 flex flex-wrap gap-2"> <span class="text-xs bg-white/10 px-2 py-0.5 rounded-full">Streamlit</span><span class="text-xs bg-white/10 px-2 py-0.5 rounded-full">ML</span><span class="text-xs bg-white/10 px-2 py-0.5 rounded-full">NASA</span><span class="text-xs bg-white/10 px-2 py-0.5 rounded-full">Astrophysics</span> </div> <div class="not-prose mt-5 flex gap-2"> <a href="https://github.com/Vibhav-Misra/exoplanet-habitability-explorer" target="_blank" rel="noopener noreferrer" class="rounded-lg border border-white/15 px-3 py-1.5 text-sm bg-white/5 hover:border-white/30">
+GitHub Repo
+</a> <a href="https://huggingface.co/spaces/VibzMiz/exoplanet-habitability-explorer" target="_blank" rel="noopener noreferrer" class="rounded-lg border border-white/15 px-3 py-1.5 text-sm bg-white/5 hover:border-white/30">
+Live Demo
+</a> </div> <div class="mt-8"> <p>◉ An end-to-end data-science &amp; ML project that explores, ranks, and visualizes thousands of confirmed exoplanets using data from the NASA Exoplanet Archive.</p>
+<p>◉ The project demonstrates data sourcing, feature engineering, interactive visualization, and ML classification in a single deployable web app.</p>
+<p style="margin-top:2rem;"></p>
+<hr/>
+<p style="margin-top:2rem;"></p>
+<p>◉ <strong>Features</strong></p>
+<p style="margin-top:1rem;"></p>
+<ul>
+<li>∘ <strong>Live NASA data pull</strong> – fetches the latest PSCompPars catalog from the NASA Exoplanet Archive via its TAP API (<code>src/fetch_data.py</code>)</li>
+</ul>
+<p style="margin-top:1rem;"></p>
+<ul>
+<li>∘ <strong>Explainable habitability score</strong> – composite of physical parameters such as insolation, radius, distance, stellar temperature, etc.</li>
+</ul>
+<p style="margin-top:1rem;"></p>
+<ul>
+<li>∘ <strong>Interactive web app (Streamlit)</strong> —
+<ul>
+<li>ⅰ) Filter by radius, insolation, discovery year, distance, etc.</li>
+<li>ⅱ) Weight presets (Conservative HZ / Optimistic HZ / Observation-friendly) plus sliders for custom scoring</li>
+<li>ⅲ) Click-to-inspect planet details with score-component breakdown</li>
+<li>ⅳ) Compare tray for side-by-side comparison of up to 3 planets</li>
+<li>ⅴ) Downloadable filtered table</li>
+</ul>
+<p style="margin-top:1rem;"></p>
+</li>
+<li>∘ <strong>ML classifier</strong> – trains a Random-Forest model to predict <em>“optimistic habitable-zone candidate”</em> label from non-leaking astrophysical &amp; engineered features<br/>
+(e.g. luminosity proxy, semi-major axis, estimated insolation)
+<ul>
+<li>ⅰ) ROC-AUC / PR-AUC / F1 displayed in the app</li>
+<li>ⅱ) Optional toggle to show predicted probability &amp; label in the UI</li>
+</ul>
+<p style="margin-top:1rem;"></p>
+</li>
+<li>∘ <strong>Clean architecture &amp; reproducibility</strong> – separate training script, model artifacts in <code>/models</code>, Streamlit app in <code>app.py</code></li>
+</ul>
+<p style="margin-top:2rem;"></p>
+<hr/>
+<p style="margin-top:2rem;"></p>
+<p>◉ <strong>Tech Stack</strong></p>
+<p style="margin-top:1rem;"></p>
+<ul>
+<li>∘ <strong>Python:</strong> <code>pandas</code>, <code>numpy</code>, <code>requests</code>, <code>pyarrow</code></li>
+<li>∘ <strong>Data science / ML:</strong> <code>scikit-learn</code>, <code>joblib</code></li>
+<li>∘ <strong>Web app / viz:</strong> <code>Streamlit</code>, <code>Plotly</code>, <code>streamlit-plotly-events</code></li>
+<li>∘ <strong>Data source:</strong> NASA Exoplanet Archive TAP API</li>
+</ul>
+<p style="margin-top:2rem;"></p>
+<hr/>
+<p style="margin-top:2rem;"></p>
+<p>◉ <strong>Workflow</strong></p>
+<p style="margin-top:1rem;"></p>
+<pre class="astro-code github-dark-dimmed" style="background-color:#22272e;color:#adbac7;overflow-x:auto" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#768390"># 1. Create environment &amp; install deps</span></span>
+<span class="line"><span style="color:#F69D50">python3</span><span style="color:#6CB6FF"> -m</span><span style="color:#96D0FF"> venv</span><span style="color:#96D0FF"> venv</span></span>
+<span class="line"><span style="color:#6CB6FF">source</span><span style="color:#96D0FF"> venv/bin/activate</span></span>
+<span class="line"><span style="color:#F69D50">pip</span><span style="color:#96D0FF"> install</span><span style="color:#6CB6FF"> -r</span><span style="color:#96D0FF"> requirements.txt</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#768390"># 2. Pull latest data</span></span>
+<span class="line"><span style="color:#F69D50">python</span><span style="color:#96D0FF"> src/fetch_data.py</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#768390"># 3. (optional) Train / update ML model</span></span>
+<span class="line"><span style="color:#F69D50">python</span><span style="color:#96D0FF"> src/train_classifier.py</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#768390"># 4. Run interactive app locally</span></span>
+<span class="line"><span style="color:#F69D50">streamlit</span><span style="color:#96D0FF"> run</span><span style="color:#96D0FF"> app.py</span></span></code></pre> </div> </article>  </main> <footer class="border-t border-white/10 bg-black/10"> <div class="mx-auto max-w-6xl px-4 py-10 text-sm text-slate-400"> <p>© 2025 Vibhav Misra · <a class="underline hover:text-white" href="/blog/">Blog</a></p> </div> </footer> </body></html>

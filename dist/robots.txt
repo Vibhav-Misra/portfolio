@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://vibhavmisra.com/sitemap-index.xml

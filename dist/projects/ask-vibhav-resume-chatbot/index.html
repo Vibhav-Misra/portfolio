@@ -1,0 +1,59 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Ask-Vibhav Resume Chatbot — Project</title><meta name="description" content="Decoding the world through data."><link rel="icon" href="/favicon.svg"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..800&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet"><link rel="stylesheet" href="/_astro/about.CZOxed7m.css"></head> <body class="min-h-screen flex flex-col font-[Inter]"> <header class="sticky top-0 z-40 backdrop-blur border-b border-white/10 bg-black/20"> <nav class="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between"> <a href="/" class="text-xl font-semibold tracking-tight">VM</a> <ul class="flex gap-5 text-sm text-slate-300"> <li><a class="hover:text-white" href="/projects/">Projects</a></li> <li><a class="hover:text-white" href="/notebooks/">Notebooks</a></li> <li><a class="hover:text-white" href="/visualizations/">Viz</a></li> <li><a class="hover:text-white" href="/snippets/">Snippets</a></li> <li><a class="hover:text-white" href="/blog/">Blog</a></li> <li><a class="hover:text-white" href="/about">About</a></li> <li><a class="hover:text-white" href="/contact">Contact</a></li> </ul> </nav> </header> <main class="flex-1">  <article class="mx-auto max-w-3xl px-4 py-12 prose prose-invert"> <h1>Ask-Vibhav Resume Chatbot</h1> <p class="text-slate-300 !mt-0">A GPT-powered chatbot trained on my resume! It answers questions about my background, technical skills, education, and projects, just like an interactive CV.</p> <div class="not-prose mt-3 flex flex-wrap gap-2"> <span class="text-xs bg-white/10 px-2 py-0.5 rounded-full">Resume</span><span class="text-xs bg-white/10 px-2 py-0.5 rounded-full">AI</span><span class="text-xs bg-white/10 px-2 py-0.5 rounded-full">Chatbot</span><span class="text-xs bg-white/10 px-2 py-0.5 rounded-full">Groq API</span> </div> <div class="not-prose mt-5 flex gap-2"> <a href="https://github.com/Vibhav-Misra/AskVibhav" target="_blank" rel="noopener noreferrer" class="rounded-lg border border-white/15 px-3 py-1.5 text-sm bg-white/5 hover:border-white/30">
+GitHub Repo
+</a> <a href="https://ask-vibhav-kj2hj96vj-vibhavs-projects-35932f5a.vercel.app/" target="_blank" rel="noopener noreferrer" class="rounded-lg border border-white/15 px-3 py-1.5 text-sm bg-white/5 hover:border-white/30">
+Live Demo
+</a> </div> <div class="mt-8"> <p>◉ An interactive chatbot trained on my resume, deployed on Vercel, powered by Groq LLM API.</p>
+<p>◉ Users can ask questions about my background, skills, education, experience, or projects and get fast, on-topic answers directly from the resume.</p>
+<p style="margin-top:2rem;"></p>
+<hr/>
+<p style="margin-top:2rem;"></p>
+<p>◉ <strong>Overview</strong></p>
+<p style="margin-top:1rem;"></p>
+<ul>
+<li>∘ Uses a fixed knowledge base (My resume text) – no need for a vector DB.</li>
+<li>∘ Built as a Next.js / Vercel serverless API endpoint (/api/chat).</li>
+<li>∘ Talks to Groq’s OpenAI-compatible Chat Completions API with modern LLaMA 3 models.</li>
+<li>∘ Front-end is a minimal chat UI deployed along with the backend.</li>
+<li>∘ The project is designed to be cheap to run (no RAG or embeddings) and simple to maintain.</li>
+</ul>
+<p style="margin-top:2rem;"></p>
+<hr/>
+<p style="margin-top:2rem;"></p>
+<p>◉ <strong>Architecture &amp; Design</strong></p>
+<p style="margin-top:1rem;"></p>
+<ul>
+<li>∘ <strong>High-Level Architecture</strong></li>
+</ul>
+<p style="margin-top:1rem;"></p>
+<p><img src="/_astro/flowchart2.RfGB6wiO_lKlVj.webp" alt="High-Level Architecture" loading="lazy" decoding="async" fetchpriority="auto" width="382" height="541"></p>
+<p style="margin-top:2rem;"></p>
+<hr/>
+<p style="margin-top:2rem;"></p>
+<p>◉ <strong>Workflow</strong></p>
+<p style="margin-top:1rem;"></p>
+<pre class="astro-code github-dark-dimmed" style="background-color:#22272e;color:#adbac7;overflow-x:auto" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#768390"># 1. Clone the Repo</span></span>
+<span class="line"><span style="color:#F69D50">git</span><span style="color:#96D0FF"> clone</span><span style="color:#96D0FF"> https://github.com/your-handle/ask-vibhav.git</span></span>
+<span class="line"><span style="color:#6CB6FF">cd</span><span style="color:#96D0FF"> ask-vibhav</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#768390"># 2. Install Dependencies</span></span>
+<span class="line"><span style="color:#F69D50">npm</span><span style="color:#96D0FF"> install</span></span>
+<span class="line"><span style="color:#768390"># or</span></span>
+<span class="line"><span style="color:#F69D50">yarn</span><span style="color:#96D0FF"> install</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#768390"># 3. Set Environment Variables</span></span>
+<span class="line"><span style="color:#768390"># Create a .env.local file (for local dev) and add:</span></span>
+<span class="line"><span style="color:#ADBAC7">GROQ_API_KEY</span><span style="color:#F47067">=</span><span style="color:#96D0FF">your-groq-key-here</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#768390"># 4. Configure Node Runtime (important on Vercel)</span></span>
+<span class="line"><span style="color:#768390"># Either in package.json:</span></span>
+<span class="line"><span style="color:#ADBAC7">{ </span><span style="color:#F69D50">&quot;engines&quot;</span><span style="color:#6CB6FF">:</span><span style="color:#96D0FF"> {</span><span style="color:#96D0FF"> &quot;node&quot;:</span><span style="color:#96D0FF"> &quot;20.x&quot;</span><span style="color:#96D0FF"> }</span><span style="color:#96D0FF"> }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#768390"># or in vercel.json:</span></span>
+<span class="line"><span style="color:#ADBAC7">{ </span><span style="color:#F69D50">&quot;functions&quot;</span><span style="color:#6CB6FF">:</span><span style="color:#96D0FF"> {</span><span style="color:#96D0FF"> &quot;api/*.js&quot;:</span><span style="color:#96D0FF"> {</span><span style="color:#96D0FF"> &quot;runtime&quot;:</span><span style="color:#96D0FF"> &quot;nodejs20.x&quot;</span><span style="color:#96D0FF"> }</span><span style="color:#96D0FF"> }</span><span style="color:#96D0FF"> }</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#768390"># 5. Run Locally</span></span>
+<span class="line"><span style="color:#768390"># open http://localhost:3000</span></span>
+<span class="line"><span style="color:#F69D50">npm</span><span style="color:#96D0FF"> run</span><span style="color:#96D0FF"> dev</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#768390"># 6. Deploy to Vercel</span></span>
+<span class="line"><span style="color:#F69D50">vercel</span><span style="color:#96D0FF"> deploy</span></span></code></pre> </div> </article>  </main> <footer class="border-t border-white/10 bg-black/10"> <div class="mx-auto max-w-6xl px-4 py-10 text-sm text-slate-400"> <p>© 2025 Vibhav Misra · <a class="underline hover:text-white" href="/blog/">Blog</a></p> </div> </footer> </body></html>
