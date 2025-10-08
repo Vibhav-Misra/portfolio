@@ -1,0 +1,62 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Will I Catch That Train — Project</title><meta name="description" content="Decoding the world through data."><link rel="icon" href="/favicon.svg"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..800&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet"><link rel="stylesheet" href="/_astro/about.BSKdc0Hx.css"></head> <body class="min-h-screen flex flex-col font-[Inter]"> <header class="sticky top-0 z-40 backdrop-blur border-b border-white/10 bg-black/20"> <nav class="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between"> <a href="/" class="text-xl font-semibold tracking-tight">VM</a> <ul class="flex gap-5 text-sm text-slate-300"> <li><a class="hover:text-white" href="/projects/">Projects</a></li> <li><a class="hover:text-white" href="/notebooks/">Notebooks</a></li> <li><a class="hover:text-white" href="/visualizations/">Viz</a></li> <li><a class="hover:text-white" href="/snippets/">Snippets</a></li> <li><a class="hover:text-white" href="/blog/">Blog</a></li> <li><a class="hover:text-white" href="/about">About</a></li> <li><a class="hover:text-white" href="/contact">Contact</a></li> </ul> </nav> </header> <main class="flex-1">  <article class="mx-auto max-w-3xl px-4 py-12 prose prose-invert"> <h1>Will I Catch That Train</h1> <p class="text-slate-300 !mt-0">A Streamlit web app that helps me decide when to leave home for the J, Z, M subway lines in NYC.</p> <div class="not-prose mt-3 flex flex-wrap gap-2"> <span class="text-xs bg-white/10 px-2 py-0.5 rounded-full">Subway</span><span class="text-xs bg-white/10 px-2 py-0.5 rounded-full">API</span><span class="text-xs bg-white/10 px-2 py-0.5 rounded-full">Real-Time</span><span class="text-xs bg-white/10 px-2 py-0.5 rounded-full">NYC</span> </div> <div class="not-prose mt-5 flex gap-2"> <a href="https://github.com/Vibhav-Misra/will-i-catch-that-train" target="_blank" rel="noopener noreferrer" class="rounded-lg border border-white/15 px-3 py-1.5 text-sm bg-white/5 hover:border-white/30">
+GitHub Repo
+</a> <a href="https://huggingface.co/spaces/VibzMiz/will-i-catch-that-train" target="_blank" rel="noopener noreferrer" class="rounded-lg border border-white/15 px-3 py-1.5 text-sm bg-white/5 hover:border-white/30">
+Live Demo
+</a> </div> <div class="mt-8"> <p>◉ A Real-Time J/Z/M NYC Subway Tracker &amp; Commute Optimizer</p>
+<p>◉ A Streamlit web app that helps you decide when to leave home for the J, Z, M subway lines in NYC.</p>
+<p>◉ It combines static GTFS schedules with real-time GTFS-RT feeds to draw trains moving on the map and to compute a “Leave-Now” suggestion.</p>
+<hr/>
+<p>◉ <strong>Features</strong></p>
+<ul>
+<li><strong>Static Map</strong> Plots only J/Z/M routes on a dark map (via Folium / Pydeck).</li>
+<li><strong>Live Positions</strong> Interpolates train positions between stops using live arrival times (no GPS required).</li>
+<li><strong>Leave-Now Assistant</strong> Calculates when to leave home based on walking time + buffer vs upcoming train arrivals.</li>
+<li><strong>Platform-specific Stop IDs</strong> Supports separate northbound / southbound platforms (e.g., <code>M11S</code>).</li>
+<li><strong>Feed-agnostic</strong> Works without API keys — uses the public MTA GTFS-RT endpoints.</li>
+<li><strong>Deploy-ready</strong> Runs locally or on Hugging Face Spaces as a Streamlit app.</li>
+</ul>
+<p>◉ <strong>Data Sources</strong></p>
+<ul>
+<li>
+<p>Static GTFS → schedules, stops, shapes (downloaded zip you placed in data/).</p>
+</li>
+<li>
+<p>Realtime feeds → public MTA endpoints.</p>
+</li>
+<li>
+<p>J/Z → <a href="https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct/gtfs-jz">https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct/gtfs-jz</a>.</p>
+</li>
+<li>
+<p>B/D/F/M (for M) → <a href="https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct/gtfs-bdfm">https://api-endpoint.mta.info/Dataservice/mtagtfsfeeds/nyct/gtfs-bdfm</a>.</p>
+</li>
+<li>
+<p>Some CDN edges still return 403 for the slash-based URL; the code automatically retries with the %2F-encoded URL.</p>
+</li>
+</ul>
+<p>◉ <strong>Tech Stack</strong></p>
+<ul>
+<li>Frontend / UI: Streamlit, Pydeck (or Folium)</li>
+<li>Realtime data: MTA GTFS-RT (protobuf via gtfs-realtime-bindings)</li>
+<li>Static data: MTA GTFS static bundle (CSV in zip)</li>
+<li>Computation: Python 3.9+, pandas, numpy, shapely</li>
+<li>Hosting: HuggingFace Spaces</li>
+<li>Version control: Git + GitHub / HF Repo</li>
+</ul>
+<p>◉ <strong>Workflow</strong></p>
+<p style="margin-top:1rem;"></p>
+<pre class="astro-code github-dark-dimmed" style="background-color:#22272e;color:#adbac7;overflow-x:auto" tabindex="0" data-language="bash"><code><span class="line"><span style="color:#768390">### 1. Clone &amp; enter project</span></span>
+<span class="line"><span style="color:#F69D50">git</span><span style="color:#96D0FF"> clone</span><span style="color:#96D0FF"> https://github.com/</span><span style="color:#F47067">&lt;</span><span style="color:#96D0FF">your-usernam</span><span style="color:#ADBAC7">e</span><span style="color:#F47067">&gt;</span><span style="color:#96D0FF">/will-i-catch-that-train.git</span></span>
+<span class="line"><span style="color:#6CB6FF">cd</span><span style="color:#96D0FF"> will-i-catch-that-train</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#768390">### 2. Set up Python env</span></span>
+<span class="line"><span style="color:#F69D50">python</span><span style="color:#6CB6FF"> -m</span><span style="color:#96D0FF"> venv</span><span style="color:#96D0FF"> venv</span></span>
+<span class="line"><span style="color:#F69D50">venv\Scripts\activate</span><span style="color:#ADBAC7">       </span></span>
+<span class="line"><span style="color:#F69D50">pip</span><span style="color:#96D0FF"> install</span><span style="color:#6CB6FF"> -r</span><span style="color:#96D0FF"> requirements.txt</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#768390">### 3. Place the static GTFS bundle</span></span>
+<span class="line"><span style="color:#768390"># Download the latest MTA Subway static GTFS zip from https://new.mta.info/developers</span></span>
+<span class="line"><span style="color:#768390"># Put the untouched zip file as:</span></span>
+<span class="line"><span style="color:#F69D50">data/nyc_gtfs_static.zip</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#768390">### 4. Run the app</span></span>
+<span class="line"><span style="color:#F69D50">streamlit</span><span style="color:#96D0FF"> run</span><span style="color:#96D0FF"> streamlit_app.py</span></span></code></pre> </div> </article>  </main> <footer class="border-t border-white/10 bg-black/10"> <div class="mx-auto max-w-6xl px-4 py-10 text-sm text-slate-400"> <p>© 2025 Vibhav Misra · <a class="underline hover:text-white" href="/blog/">Blog</a></p> </div> </footer> </body></html>
