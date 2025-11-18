@@ -1,0 +1,156 @@
+<!DOCTYPE html><html lang="en"> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>How I Approach EDA - My Personal Workflow — Vibhav Misra</title><meta name="description" content="A walkthrough of my personal EDA workflow -> the questions I ask, the steps I follow, the mistakes I’ve learned from, and how I turn raw datasets into real insights."><link rel="icon" href="/favicon.svg"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..800&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet"><link rel="stylesheet" href="/_astro/about.DWj0nRYi.css"></head> <body class="min-h-screen flex flex-col font-[Inter]"> <header class="sticky top-0 z-40 backdrop-blur border-b border-white/10 bg-black/20"> <nav class="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between"> <a href="/" class="text-xl font-semibold tracking-tight">VM</a> <ul class="flex gap-5 text-sm text-slate-300"> <li><a class="hover:text-white" href="/projects/">Projects</a></li> <li><a class="hover:text-white" href="/notebooks/">Notebooks</a></li> <li><a class="hover:text-white" href="/visualizations/">Viz</a></li> <li><a class="hover:text-white" href="/snippets/">Snippets</a></li> <li><a class="hover:text-white" href="/blog/">Blog</a></li> <li><a class="hover:text-white" href="/about">About</a></li> <li><a class="hover:text-white" href="/contact">Contact</a></li> </ul> </nav> </header> <main class="flex-1">  <article class="mx-auto max-w-3xl px-4 py-12 prose prose-invert"> <header class="mb-6"> <h1 class="mb-2">How I Approach EDA - My Personal Workflow</h1> <p class="text-sm text-slate-400">November 17, 2025</p> <p class="mt-2 text-slate-300">A walkthrough of my personal EDA workflow -&gt; the questions I ask, the steps I follow, the mistakes I’ve learned from, and how I turn raw datasets into real insights.</p> </header> <p><strong>Hello!</strong></p>
+<p>If you’ve read my earlier posts, you know two things about me already:</p>
+<ol>
+<li>I rebuilt my portfolio because I wanted a place to share my work as I actually do it.</li>
+<li>All the websites that I frequently visit to look for a suitable dataset for my work.</li>
+</ol>
+<p>So, in this blog post, I decided to write about the next logical step, which is –</p>
+<p>What I actually do once I have a dataset in my hands.</p>
+<p>This is the workflow I follow every time (or at least try to, because every so often I did come across such a problem statement, where this order of steps will not exactly work, and I had to make some tweaks, or find new ways to get moving); whether I’m building a machine learning model, exploring a new topic, or just doing a late-night “let me see what this dataset looks like” session.</p>
+<p>This isn’t meant to be a perfect or universal process.</p>
+<p>It’s MY process, one that evolved through many mistakes, many notebooks, and many confusing CSVs.</p>
+<p>Let’s get into it.</p>
+<h2 id="1-start-with-a-question-not-the-data">1. Start With a Question, Not the Data</h2>
+<p>For years I used to open a dataset and immediately dive into <code>df.describe()</code> and <code>df.info()</code>.</p>
+<p>It worked but I always ended up lost.</p>
+<p>Now I start with something much simpler.</p>
+<p>“What do I want to learn from this dataset?”</p>
+<p><strong>Examples:</strong></p>
+<ul>
+<li>“Is there a pattern in customer churn?”</li>
+<li>“How do NYC subway delays vary by line?”</li>
+<li>“Which exoplanets look remotely habitable?”</li>
+<li>“Can I predict house prices with a simple model?”</li>
+</ul>
+<p>This question becomes my guide and helps me navigate the process.</p>
+<h2 id="2-get-the-lay-of-the-land-the-first-10-minutes">2. Get the Lay of the Land (The First 10 Minutes)</h2>
+<p>This is my warm-up routine.</p>
+<pre class="astro-code github-dark-dimmed" style="background-color:#22272e;color:#adbac7;overflow-x:auto" tabindex="0" data-language="python"><code><span class="line"><span style="color:#ADBAC7">df.head()</span></span>
+<span class="line"><span style="color:#ADBAC7">df.info()</span></span>
+<span class="line"><span style="color:#ADBAC7">df.describe(</span><span style="color:#F69D50">include</span><span style="color:#F47067">=</span><span style="color:#96D0FF">&#39;all&#39;</span><span style="color:#ADBAC7">)</span></span>
+<span class="line"><span style="color:#768390"># Use df.describe(include=&#39;object&#39;) or df.describe(include=&#39;category&#39;) depending on context.</span></span>
+<span class="line"><span style="color:#ADBAC7">df.shape</span></span></code></pre>
+<p>I purposely don’t try to understand everything yet.</p>
+<p>I’m just trying to get a sense of:</p>
+<ul>
+<li>How big is this dataset?</li>
+<li>Are there categorical columns?</li>
+<li>Do the numeric columns look reasonable?</li>
+<li>Are there weird values that should not exist?</li>
+</ul>
+<p>It’s like walking through a new apartment before deciding where the furniture goes.</p>
+<h2 id="3-my-mental-eda-checklist">3. My Mental EDA Checklist</h2>
+<p>This took me the longest time to develop, but now I try to stick to it.</p>
+<p>Think of it as:</p>
+<ul>
+<li>What I check, in this order, always.</li>
+</ul>
+<p><strong>1) Missing Values -</strong></p>
+<p>I start with a simple table:</p>
+<pre class="astro-code github-dark-dimmed" style="background-color:#22272e;color:#adbac7;overflow-x:auto" tabindex="0" data-language="python"><code><span class="line"><span style="color:#ADBAC7">df.isnull().sum()</span></span></code></pre>
+<p>Questions I ask myself:</p>
+<ul>
+<li>Are the missing values meaningful or just noise?</li>
+<li>Should I drop them, fill them, or create a new feature?</li>
+</ul>
+<p>I will later on write a separate blog post about handling missing values, because of its significance.</p>
+<p>I would also like to point out that missing values do not always hurt model performance and some tree-based models (XGBoost, LightGBM, CatBoost) handle them natively.</p>
+<p><strong>2) Data Types -</strong></p>
+<p>This sounds boring, but it has saved me countless headaches.</p>
+<ul>
+<li>Are dates stored as strings?</li>
+<li>Are IDs stored as numbers?</li>
+<li>Are categorical columns numeric?</li>
+</ul>
+<p>If something feels wrong, it usually is.</p>
+<p>Also, majority of the publicly available datasets have information section somewhere near the download link, which tells us the feature, as well as its data type and a brief description. So just make sure to refer to that!</p>
+<p><strong>3) Basic Distributions -</strong></p>
+<p>Histograms, box plots, KDEs, basically anything that helps me see the shape of the data.
+You’d be surprised how often a single plot changes your entire approach.</p>
+<p><strong>4) Outliers -</strong></p>
+<p>Outliers are like plot twists in a movie, sometimes they’re noise, sometimes they’re the whole story.</p>
+<p>I look for:</p>
+<ul>
+<li>Extremely large values</li>
+<li>Negative values where there shouldn’t be any</li>
+<li>Repeated patterns</li>
+<li>Duplicates</li>
+</ul>
+<p>Also, this is the point where you may want to revisit your problem statement, just to know the significance of the outliers.</p>
+<p><strong>5) Correlations -</strong></p>
+<p>Not to confirm assumptions, but to break them.</p>
+<p>This is the snippet that I usually use to generate a correlation heatmap of all the numeric features:</p>
+<pre class="astro-code github-dark-dimmed" style="background-color:#22272e;color:#adbac7;overflow-x:auto" tabindex="0" data-language="python"><code><span class="line"><span style="color:#ADBAC7">corr </span><span style="color:#F47067">=</span><span style="color:#ADBAC7"> df_numeric.corr()</span></span>
+<span class="line"><span style="color:#ADBAC7">corr.style.background_gradient(</span><span style="color:#F69D50">cmap</span><span style="color:#F47067">=</span><span style="color:#96D0FF">&#39;coolwarm&#39;</span><span style="color:#ADBAC7">)</span></span></code></pre>
+<p>An example visualization, as you can see, colored cells as well as the numeric values gives a really good idea of the correlation between the features:</p>
+<p><img src="/images/visualizations/heatmap.png" alt="Correlation Heatmap"/></p>
+<p>You can also use VIF (Variance Inflation Factor), to detect multicollinearity in regression settings.</p>
+<p><strong>6) Feature Relationships -</strong></p>
+<p>Scatter plots, pairplots, groupby tables.</p>
+<p>This is where ideas start forming.</p>
+<h2 id="4-the-part-everyone-forgets-asking-new-questions">4. The Part Everyone Forgets: Asking New Questions</h2>
+<p>EDA isn’t linear.</p>
+<p>It’s exploratory for a reason.</p>
+<p>When I find something interesting, I pause and ask:</p>
+<ul>
+<li>Why is this column distributed like this?</li>
+<li>Is this pattern consistent across groups?</li>
+<li>What happens if I isolate top/bottom 5%?</li>
+<li>Does this feature depend on time?</li>
+</ul>
+<p>These new questions often become mini-projects inside the project, and trust me, this part is super important, because it’s this curiosity that makes any project stand apart.</p>
+<h2 id="5-real-examples-the-fun-part">5. Real Examples (The Fun Part)</h2>
+<p>These are some genuine “before/after” moments that changed my approach:</p>
+<p><strong>1) Example 1: Customer Churn Dataset -</strong></p>
+<p><strong>Before:</strong> I assumed monthly charges affected churn linearly.</p>
+<p><strong>After:</strong> A scatter plot showed a bimodal distribution, there were two types of customers entirely.</p>
+<p>That plot alone changed my whole modeling approach.</p>
+<p><strong>2) Example 2: Airbnb NYC -</strong></p>
+<p><strong>Before:</strong> I thought “price” would correlate strongly with location.</p>
+<p><strong>After:</strong> The strongest correlation was actually with “minimum nights” and “availability.”</p>
+<p>Depending on the version of the dataset and filters, correlations vary, but in my analysis, minimum nights and availability came out strongest.</p>
+<p><strong>3) Example 3: Exoplanets Dataset -</strong></p>
+<p><strong>Before:</strong> I assumed habitability would depend most on temperature.</p>
+<p><strong>After:</strong> Stellar radius affects luminosity and thus habitability indirectly.</p>
+<h2 id="6-mistakes-i-made-when-i-started-that-you-can-avoid">6. Mistakes I Made When I Started (That You Can Avoid)</h2>
+<p>I want this blog to feel honest and helpful, so here are the mistakes that cost me the most time:</p>
+<p><strong>Mistake 1: Diving into modeling too fast</strong></p>
+<ul>
+<li>You waste time tuning a model that’s learning nothing.</li>
+</ul>
+<p><strong>Mistake 2: Ignoring domain context</strong></p>
+<ul>
+<li>Just because the numbers look fine doesn’t mean they mean something.</li>
+</ul>
+<p><strong>Mistake 3: Trusting correlation too much</strong></p>
+<ul>
+<li>Correlation is a hint, not a conclusion. (Correlation is NOT causation!!!!)</li>
+</ul>
+<p><strong>Mistake 4: Cleaning data blindly</strong></p>
+<ul>
+<li>Sometimes a “weird value” is actually the key insight.</li>
+</ul>
+<p><strong>Mistake 5: Not documenting anything</strong></p>
+<ul>
+<li>Now I literally leave a trail of markdown comments in my notebooks.</li>
+</ul>
+<h2 id="7-when-i-know-im-done-with-eda">7. When I Know I’m “Done” With EDA</h2>
+<p>Honestly… I’m never fully done.</p>
+<p>But I stop exploring and start modeling when:</p>
+<ul>
+<li>I understand the distribution of key variables</li>
+<li>I know which features matter and which don’t</li>
+<li>I’ve identified major issues (missing values, outliers, leakage)</li>
+<li>I can clearly articulate the story of the dataset</li>
+<li>The assignment is near to the submission deadline :(</li>
+</ul>
+<p>EDA gives me a mental map.</p>
+<p>Modeling is just walking through it.</p>
+<h2 id="8-final-thoughts">8. Final Thoughts</h2>
+<p>This workflow isn’t about rigid steps, it’s about curiosity.</p>
+<p>EDA is the part of data science where you discover things, question your assumptions, and let the dataset surprise you.</p>
+<p>If you’re new to data science, I hope this post gives you a starting point.</p>
+<p>If you’re more experienced, I hope it feels familiar.</p>
+<p>In future posts, I’ll dive deeper into some of these EDA steps and also discuss some of my recent projects, how I explored them, the mistakes I made, and the insights that changed the direction of the work.</p>
+<p>If you made it this far, here’s a cookie 🍪</p>
+<p>~Vibhav</p> </article>  </main> <footer class="border-t border-white/10 bg-black/10"> <div class="mx-auto max-w-6xl px-4 py-10 text-sm text-slate-400"> <p>© 2025 Vibhav Misra · <a class="underline hover:text-white" href="/blog/">Blog</a></p> </div> </footer> </body></html>
