@@ -26,5 +26,17 @@ draft: z.boolean().optional()
 })
 });
 
+const visualizations = defineCollection({
+  type: 'data',
+  schema: z.object({
+    title: z.string(),
+    slug: z.string(),
+    description: z.string(),
+    embedUrl: z.string().url(),
+    tech: z.array(z.string()).optional(),
+    order: z.number().optional(),
+    featured: z.boolean().optional()
+  }),
+});
 
-export const collections = { projects, blog };
+export const collections = { projects, blog, visualizations};

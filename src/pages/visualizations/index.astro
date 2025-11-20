@@ -1,15 +1,62 @@
 ---
 import Base from '../../layouts/Base.astro';
+import { getCollection } from 'astro:content';
+
+const visualizations = (await getCollection('visualizations')).sort(
+  (a, b) => (a.data.order ?? 999) - (b.data.order ?? 999)
+);
 ---
+
 <Base title="Visualizations — Vibhav Misra">
-<section class="mx-auto max-w-6xl px-4 py-12">
-<h1 class="text-3xl font-semibold">Visualizations</h1>
-<p class="mt-2 text-slate-300">Embeds from Vercel apps, Observable, Plotly, etc.</p>
-<div class="mt-6 grid gap-6">
-<div class="w-full aspect-video rounded-2xl border border-white/10
-              flex items-center justify-center text-slate-400 text-xl
-              bg-gradient-to-br from-white/5 to-white/10 animate-pulse">
-    Coming Soon…
-</div>
-</section>
+  <section class="mx-auto max-w-6xl px-4 py-12">
+    <h1 class="text-3xl font-semibold">Visualizations</h1>
+    <p class="mt-2 text-slate-300">
+      Interactive dashboards and data stories powered by Streamlit, Plotly, and more.
+    </p>
+
+    {visualizations.length === 0 ? (
+      <div
+        class="mt-6 w-full aspect-video rounded-2xl border border-white/10
+               flex items-center justify-center text-slate-400 text-xl
+               bg-gradient-to-br from-white/5 to-white/10 animate-pulse"
+      >
+        Coming Soon…
+      </div>
+    ) : (
+      <div class="mt-8 grid gap-8 md:grid-cols-2">
+        {visualizations.map(({ id, data }) => (
+          <article
+            class="rounded-2xl border border-white/10 bg-slate-900/40
+                   backdrop-blur-sm p-4 flex flex-col gap-3"
+          >
+            <div class="aspect-video overflow-hidden rounded-xl border border-white/5 bg-black/40">
+              <iframe
+                src={data.embedUrl}
+                loading="lazy"
+                class="h-full w-full"
+                allow="fullscreen; clipboard-write; encrypted-media;"
+              ></iframe>
+            </div>
+
+            <div>
+              <h2 class="text-lg font-semibold">{data.title}</h2>
+              <p class="mt-1 text-sm text-slate-300">
+                {data.description}
+              </p>
+
+              {data.tech && (
+                <ul class="mt-2 flex flex-wrap gap-2 text-[11px] uppercase tracking-wide text-slate-400">
+                  {data.tech.map((tag) => (
+                    <li class="rounded-full border border-white/10 px-2 py-0.5">
+                      {tag}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          </article>
+        ))}
+      </div>
+    )}
+  </section>
 </Base>
