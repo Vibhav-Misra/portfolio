@@ -2,7 +2,8 @@
   "title": "Telco Churn Explorer",
   "slug": "telco-churn-explorer",
   "description": "Interactive Streamlit dashboard to explore churn probability and visualize global Model Feature Importance for telco customers.",
-  "embedUrl": "https://telco-churn-explorer-87nrsb3trde7bmxpucmrz7.streamlit.app/?embed=true",
+  "liveUrl": "https://telco-churn-explorer-87nrsb3trde7bmxpucmrz7.streamlit.app",
+  "thumbnail": "/images/visualizations/telco_churn.png",
   "tech": ["Python", "Streamlit", "Random Forest", "Matplotlib"],
   "order": 1,
   "featured": true

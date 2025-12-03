@@ -1,0 +1,10 @@
+{
+  "title": "NYC Tree Census Explorer",
+  "slug": "nyc-tree-census-explorer",
+  "description": "Tableau dashboard built on the 2015 NYC Street Tree Census, exploring tree health, species diversity, and diameter distributions across all five boroughs.",
+  "liveUrl": "https://public.tableau.com/views/NYCTreeCensus2015_17646202606400/NYCTreeCensus2015Overview?:language=en-US&:sid=&:redirect=auth&:display_count=n&:origin=viz_share_link", 
+  "thumbnail": "/images/visualizations/nyc_tree_census.png",
+  "tech": ["Tableau", "Data Visualization", "NYC Open Data"],
+  "order": 2,
+  "featured": true
+}

@@ -13,9 +13,12 @@
         "description": {
           "type": "string"
         },
-        "embedUrl": {
+        "liveUrl": {
           "type": "string",
           "format": "uri"
+        },
+        "thumbnail": {
+          "type": "string"
         },
         "tech": {
           "type": "array",
@@ -37,7 +40,8 @@
         "title",
         "slug",
         "description",
-        "embedUrl"
+        "liveUrl",
+        "thumbnail"
       ],
       "additionalProperties": false
     }

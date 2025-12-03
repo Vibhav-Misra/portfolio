@@ -32,11 +32,13 @@ const visualizations = defineCollection({
     title: z.string(),
     slug: z.string(),
     description: z.string(),
-    embedUrl: z.string().url(),
+    liveUrl: z.string().url(),      
+    thumbnail: z.string(),          
     tech: z.array(z.string()).optional(),
     order: z.number().optional(),
-    featured: z.boolean().optional()
+    featured: z.boolean().optional(),
   }),
 });
+
 
 export const collections = { projects, blog, visualizations};
