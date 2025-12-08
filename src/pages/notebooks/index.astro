@@ -3,6 +3,7 @@ import Base from '../../layouts/Base.astro';
 const notebooks = [
 { title: 'Forecasting NYC Electricity Consumption Across Daily, Monthly Mean, and Yearly Mean Series with Facebook Prophet', href: '/notebooks/forecasting-NYC-electricity-consumption-across-daily-monthly-mean-and-yearly-mean-series-with-facebook-prophet.html' },
 { title: 'Performance Comparison of Logistic Regression, Naive Bayes, KNN, Decision Tree, Random Forest, and XGBoost on Bank Marketing Data', href: '/notebooks/performance-comparison-of-logistic-regression-naive-bayes-KNN-decision-tree-random-forest-and-XGBoost-on-bank-marketing-data.html' },
+{ title: 'Temporal Dynamics of Hate Crimes: Time-Series Forecasting in New York City', href: '/notebooks/temporal-dynamics-of-hate-crimes-time-series-forecasting-in-new-york-city.html' },
 { title: 'EDA - Telco Customer Churn Data', href: '/notebooks/EDA-telco-customer-churn-data.html' },
 { title: 'Electric Vehicle Adoption Analysis in Washington State', href: '/notebooks/electric-vehicle-adoption-analysis-in-washington-state.html' },
 { title: 'Forecasting Amazon Review Ratings Time Series Analysis Using ARIMA, Prophet, and LSTM', href: '/notebooks/forecasting-amazon-review-ratings-time-series-analysis-using-ARIMA-prophet-and-LSTM.html' },
@@ -15,11 +16,15 @@ const notebooks = [
 <Base title="Notebooks — Vibhav Misra">
 <section class="mx-auto max-w-6xl px-4 py-12">
 <h1 class="text-3xl font-semibold">Notebooks</h1>
-<ul class="mt-6 grid md:grid-cols-2 gap-4">
+<ul class="mt-6 grid md:grid-cols-2 gap-4 auto-rows-fr">
 {notebooks.map(n => (
-<li>
-<a class="block rounded-xl border border-white/10 hover:border-white/20 p-5 bg-[var(--card)]" href={n.href}>
-<h3 class="text-lg font-semibold">{n.title}</h3>
+<li class="flex">
+<a
+  class="block h-full w-full rounded-xl border border-white/10 hover:border-white/20
+         p-5 bg-[var(--card)] flex flex-col justify-between"
+  href={n.href}
+>
+<h3 class="text-lg font-semibold line-clamp-3">{n.title}</h3>
 <p class="text-slate-400">Static HTML export</p>
 </a>
 </li>

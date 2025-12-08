@@ -1,38 +1,118 @@
 ---
 const { title = 'Vibhav Misra — Data Science', description = 'Decoding the world through data.', } = Astro.props;
 import '../styles/global.css';
+
+const navLinks = [
+  { name: 'Projects', href: '/projects/' },
+  { name: 'Notebooks', href: '/notebooks/' },
+  { name: 'Viz', href: '/visualizations/' },
+  { name: 'Snippets', href: '/snippets/' },
+  { name: 'Blog', href: '/blog/' },
+  { name: 'About', href: '/about' },
+  { name: 'Contact', href: '/contact' },
+];
 ---
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>{title}</title>
-<meta name="description" content={description} />
-<link rel="icon" href="/favicon.svg" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..800&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..800&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
+    <style>
+        /* Hamburger Animation */
+        .nav-icon span {
+            display: block;
+            position: absolute;
+            height: 2px;
+            width: 100%;
+            background: #cbd5e1; /* slate-300 */
+            border-radius: 9px;
+            opacity: 1;
+            left: 0;
+            transform: rotate(0deg);
+            transition: .25s ease-in-out;
+        }
+        .nav-icon span:nth-child(1) { top: 0px; }
+        .nav-icon span:nth-child(2) { top: 8px; }
+        .nav-icon span:nth-child(3) { top: 16px; }
+
+        .nav-icon.open span:nth-child(1) { top: 8px; transform: rotate(135deg); }
+        .nav-icon.open span:nth-child(2) { opacity: 0; left: -60px; }
+        .nav-icon.open span:nth-child(3) { top: 8px; transform: rotate(-135deg); }
+
+        /* Dropdown Panel */
+        #mobile-menu {
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            transform: translateY(-10px);
+            pointer-events: none;
+        }
+        #mobile-menu.active {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+    </style>
 </head>
-<body class="min-h-screen flex flex-col font-[Inter]">
-<header class="sticky top-0 z-40 backdrop-blur border-b border-white/10 bg-black/20">
-<nav class="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
-<a href="/" class="text-xl font-semibold tracking-tight">VM</a>
-<ul class="flex gap-5 text-sm text-slate-300">
-<li><a class="hover:text-white" href="/projects/">Projects</a></li>
-<li><a class="hover:text-white" href="/notebooks/">Notebooks</a></li>
-<li><a class="hover:text-white" href="/visualizations/">Viz</a></li>
-<li><a class="hover:text-white" href="/snippets/">Snippets</a></li>
-<li><a class="hover:text-white" href="/blog/">Blog</a></li>
-<li><a class="hover:text-white" href="/about">About</a></li>
-<li><a class="hover:text-white" href="/contact">Contact</a></li>
-</ul>
-</nav>
+<body class="min-h-screen flex flex-col font-[Inter] bg-black text-white">
+
+<header class="sticky top-0 z-50 backdrop-blur border-b border-white/10 bg-black/20">
+    <nav class="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between">
+        <a href="/" class="text-xl font-semibold tracking-tight">VM</a>
+        
+        <ul class="hidden md:flex gap-5 text-sm text-slate-300">
+            {navLinks.map(link => (
+                <li><a class="hover:text-white transition-colors" href={link.href}>{link.name}</a></li>
+            ))}
+        </ul>
+
+        <button id="menu-btn" class="md:hidden relative w-6 h-5 focus:outline-none nav-icon" aria-label="Toggle Menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </nav>
+
+    <div id="mobile-menu" class="absolute top-full left-0 w-full opacity-0 md:hidden z-40">
+        <div class="mx-4 my-2 p-6 backdrop-blur bg-black/60 border border-white/10 rounded-2xl shadow-2xl">
+            <ul class="flex flex-col gap-6 text-lg font-medium text-slate-300">
+                {navLinks.map(link => (
+                    <li><a class="hover:text-white block" href={link.href}>{link.name}</a></li>
+                ))}
+            </ul>
+        </div>
+    </div>
 </header>
+
 <main class="flex-1"> <slot /> </main>
+
 <footer class="border-t border-white/10 bg-black/10">
-<div class="mx-auto max-w-6xl px-4 py-10 text-sm text-slate-400">
-<p>© {new Date().getFullYear()} Vibhav Misra · <a class="underline hover:text-white" href="/blog/">Blog</a></p>
-</div>
+    <div class="mx-auto max-w-6xl px-4 py-10 text-sm text-slate-400">
+        <p>© {new Date().getFullYear()} Vibhav Misra · <a class="underline hover:text-white" href="/blog/">Blog</a></p>
+    </div>
 </footer>
+
+<script>
+    const btn = document.getElementById('menu-btn');
+    const menu = document.getElementById('mobile-menu');
+
+    btn.addEventListener('click', () => {
+        btn.classList.toggle('open');
+        menu.classList.toggle('active');
+    });
+
+    // Close menu when clicking a link
+    const links = menu.querySelectorAll('a');
+    links.forEach(link => {
+        link.addEventListener('click', () => {
+            btn.classList.remove('open');
+            menu.classList.remove('active');
+        });
+    });
+</script>
+
 </body>
 </html>
