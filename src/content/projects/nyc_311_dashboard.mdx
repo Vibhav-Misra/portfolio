@@ -1,0 +1,143 @@
+---
+title: NYC 311 Service Quality & Operational Performance Dashboard
+date: "2026-02-25"
+summary: End-to-end analytics engagement on 5M+ NYC 311 requests. PostgreSQL star schema, true backlog (as-of) modeling, operational KPIs, and a multi-page Power BI dashboard with agency drill-through.
+tags: ["Power BI", "PostgreSQL", "Analytics Engineering", "NYC Open Data"]
+repo: https://github.com/Vibhav-Misra/nyc-311-ops-dashboard
+---
+
+◉ An end-to-end operational analytics project that transforms NYC Open Data 311 requests into a structured warehouse + performance dashboard for monitoring service demand, backlog risk, SLA compliance, and agency/borough bottlenecks.
+
+◉ This project mirrors a real analyst workflow: API ingestion → SQL modeling → star schema → Power BI semantic layer → executive-ready reporting.
+
+---
+
+◉ **Quick Links**
+<p style="margin-top:1rem;"></p>
+
+1) [GitHub Repo](https://github.com/Vibhav-Misra/nyc-311-ops-dashboard)  
+2) **Video Walkthrough:**  Coming Soon
+3) [PBIX Download (Google Drive)](https://drive.google.com/file/d/12NjrbvSaLXZ5ZbcQLxaovRwWsoIrb8Jy/view?usp=sharing)
+4) **Docs:**  
+     - [Insights and Recommendations](https://github.com/Vibhav-Misra/nyc-311-ops-dashboard/blob/main/docs/insights_and_recommendations.md)
+    - [KPI Definitions](https://github.com/Vibhav-Misra/nyc-311-ops-dashboard/blob/main/docs/kpi_definitions.md)  
+     - [Data Dictionary](https://github.com/Vibhav-Misra/nyc-311-ops-dashboard/blob/main/docs/data_dictionary.md)  
+    - [Technical Architecture](https://github.com/Vibhav-Misra/nyc-311-ops-dashboard/blob/main/docs/technical_architecture.md)
+
+---
+
+◉ **Business Context**
+<p style="margin-top:1rem;"></p>
+
+NYC’s 311 system processes millions of service requests annually across agencies (housing, sanitation, noise, infrastructure, etc.).  
+City leadership and agency managers need consistent visibility into:
+
+- Volume trends & seasonality  
+- Resolution efficiency  
+- SLA compliance (≤ 7 days proxy)  
+- Backlog growth and operational risk  
+- Borough-level hotspots  
+- Agency bottlenecks and long-tail cases  
+
+Raw 311 data is large and not decision-ready. This project cleans, models, and operationalizes the data into a repeatable analytics workflow and monitoring dashboard.
+
+---
+
+◉ **What I Built**
+<p style="margin-top:1rem;"></p>
+
+- **PostgreSQL Analytics Warehouse (Star Schema)**
+  - Fact table: `fact_311_requests` (grain: 1 row per request)
+  - Dimensions: `dim_date`, `dim_agency`, `dim_complaint_type`, `dim_borough`
+  - Indexed for BI performance
+
+- **True Historical Backlog Modeling (As-Of-Date Logic)**
+  - Backlog at date **D** is computed as:  
+    `created_date ≤ D AND (closed_date IS NULL OR closed_date > D)`  
+  - This reconstructs backlog historically (not just “currently open tickets”) and supports backlog growth analysis.
+
+- **Power BI Dashboard (Multi-page)**
+  - Executive overview: KPIs, volume trend, top complaints, agency performance table  
+  - Operational trends: rolling 7-day volume, true backlog (as-of), resolution-time trend  
+  - Borough deep dive: backlog concentration + SLA and resolution disparities  
+  - Agency drill-through: performance + complaint mix + resolution distribution
+
+- **SQL Analytics Layer**
+  - 10 production-style SQL scripts covering volume, SLA, rolling averages, ranking, backlog reconstruction, and outlier detection.
+
+---
+
+◉ **Dashboard Preview**
+<p style="margin-top:1rem;"></p>
+
+- **Executive Overview**  
+  ![Executive Overview](public/images/visualizations/page1_executive_overview.png)
+
+- **Operational Trends**  
+  ![Operational Trends](public/images/visualizations/page2_operational_trends.png)
+
+- **Borough Deep Dive**  
+  ![Borough Deep Dive](public/images/visualizations/page3_borough_deepdive.png)
+
+- **Agency Drill-Through**  
+  ![Agency Drill-Through](public/images/visualizations/page4_agency_deepdive.png)
+
+*(See the video walkthrough for a guided tour.)*
+
+---
+
+◉ **KPIs Tracked**
+<p style="margin-top:1rem;"></p>
+
+- Total Requests  
+- Open Requests  
+- Closed Requests  
+- Avg Resolution Time (Days) *(uses cleaned resolution values)*  
+- Median Resolution Time (Days)  
+- % Closed Within 7 Days (SLA proxy)  
+- True Backlog (As-Of Date)  
+- Rolling 7-Day Avg Requests  
+- Backlog Growth MoM (%)  
+- Agency SLA Rank  
+
+Full definitions and DAX formulas are documented in: [KPI Definitions](https://github.com/Vibhav-Misra/nyc-311-ops-dashboard/blob/main/docs/kpi_definitions.md).
+
+---
+
+◉ **Key Findings (Selected)**
+<p style="margin-top:1rem;"></p>
+
+- **Backlog grew steadily through 2025** even as average resolution time improved — suggesting intake growth outpaced closure capacity.  
+- **Backlog concentration is not evenly distributed** across boroughs; Manhattan shows especially high backlog levels relative to demand.  
+- **Agency performance varies sharply**, and some agencies exhibit long-tail resolution behavior (>30 days) that inflates backlog risk.  
+- **EDC case study:** exceptionally high average resolution time driven by long-duration cases and a concentrated complaint mix.
+
+Full write-up (with recommendations): [Insights and Recommendations](https://github.com/Vibhav-Misra/nyc-311-ops-dashboard/blob/main/docs/insights_and_recommendations.md).
+
+---
+
+◉ **Tech Stack**
+<p style="margin-top:1rem;"></p>
+
+- **Database / Modeling:** PostgreSQL (local)  
+- **Analytics / KPI Layer:** Power BI (DAX measures, drill-through)  
+- **Ingestion:** NYC Open Data API → CSV → PostgreSQL staging  
+- **SQL Deliverables:** `/sql` scripts (ranking, rolling averages, backlog reconstruction, SLA)
+
+---
+
+◉ **Workflow**
+<p style="margin-top:1rem;"></p>
+
+```bash
+# 1) Pull data (API → CSV)
+python pull_311.py
+
+# 2) Load into PostgreSQL
+# (Import CSV into stg.stg_311_raw)
+
+# 3) Build warehouse (dims + fact)
+# (SQL scripts in repo /docs or setup notes)
+
+# 4) Open Power BI
+# Connect to PostgreSQL → refresh → interact with dashboard
