@@ -1,7 +1,48 @@
 {
-  "$ref": "#/definitions/projects",
-  "definitions": {
-    "projects": {}
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "summary": {
+      "type": "string",
+      "maxLength": 240
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "tech": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "repo": {
+      "type": "string",
+      "format": "uri"
+    },
+    "demo": {
+      "type": "string",
+      "format": "uri"
+    },
+    "cover": {
+      "type": "string"
+    },
+    "$schema": {
+      "type": "string"
+    }
   },
-  "$schema": "http://json-schema.org/draft-07/schema#"
+  "required": [
+    "title",
+    "date",
+    "summary"
+  ]
 }
