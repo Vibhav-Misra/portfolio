@@ -1,22 +1,30 @@
 ---
 import Base from '../../layouts/Base.astro';
-import { getCollection } from 'astro:content';
+import { getCollection, render } from 'astro:content';
 
-// Build all blog routes at build time
 export async function getStaticPaths() {
   const posts = await getCollection('blog', ({ data }) => !data.draft);
-  return posts.map((post) => ({
-    params: { slug: post.slug },
-    props: { post },
-  }));
+
+  return posts
+    .filter((post) => post.id)
+    .map((post) => ({
+      params: { slug: post.id },
+      props: { post },
+    }));
 }
 
 const { post } = Astro.props;
-const { Content } = await post.render();
+const { Content } = await render(post);
 
-const fmt = new Intl.DateTimeFormat('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-const published = fmt.format(post.data.date);
+const fmt = new Intl.DateTimeFormat('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const published = fmt.format(new Date(post.data.date));
 ---
+
 <Base title={`${post.data.title} — Vibhav Misra`} description={post.data.description}>
   <article class="mx-auto max-w-3xl px-4 py-12 prose prose-invert">
     <header class="mb-6">
