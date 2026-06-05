@@ -68,34 +68,48 @@ const recentlyRead = [
   },
 ];
 ---
-<Base title="About — Vibhav Misra">
-<section class="mx-auto max-w-6xl px-4 py-12 prose prose-invert">
-<h1>About</h1>
-<p>Hi, I’m Vibhav Misra, a Data Science master’s student at Pace University in New York City. I’m passionate about building practical machine learning systems and turning complex data into clear, actionable insights.</p>
-  
-<p>Before moving to NYC, I completed my bachelor’s degree in Computer Science with a specialization in Artificial Intelligence and Machine Learning.</p>
-  
-<p>Beyond the classroom, I explore how data and storytelling can intersect, whether that’s through well-designed dashboards, interactive visualizations, or writing about my learning process. I see data science not just as algorithms, but as a way to explain, predict, and engage.</p>
+<Base title="About - Vibhav Misra">
+  <section class="mx-auto max-w-6xl px-4 py-12 prose prose-invert">
+    <h1>About</h1>
 
-<p>
-  For a full overview of my experience,
-  <a
-    href="/resume.pdf"
-    target="_blank"
-    rel="noopener noreferrer"
-    class="text-emerald-400 hover:underline"
-  >
-    view my resume
-  </a>
-</p>
+    <p>
+      Hi, I’m Vibhav Misra, a recent M.S. Data Science graduate from Pace University in New York City, honored Magna Cum Laude. I’m interested in building practical data systems that turn complex, messy information into clear insights, useful tools, and better decisions.
+    </p>
 
-</section>
+    <p>
+      My interest in data started in 2020 while exploring COVID-19 trends, and over time it grew into a broader focus on machine learning, analytics, visualization, and applied AI. Before coming to NYC, I completed my bachelor’s degree in Computer Science and Engineering with a specialization in Artificial Intelligence and Machine Learning.
+    </p>
 
-<div class="mx-auto max-w-3xl px-4">
+    <p>
+      I like working across the full data pipeline: data collection, cleaning, exploratory analysis, feature engineering, modeling, evaluation, and deployment. Some of my recent projects include a NYC 311 service quality dashboard, a global economic stress early-warning system, a resume-grounded AI chatbot, a memory manager for AI assistants, and real-time transit tools using NYC subway data.
+    </p>
+
+    <p>
+      Beyond models and dashboards, I care about communication. I see data science as a way to explain, predict, and engage - whether through a well-designed visualization, an interactive app, or a clear technical write-up.
+    </p>
+
+    <p>
+      I’m currently seeking full-time opportunities in data analytics, business intelligence, data science, machine learning, business analysis, or operations analytics.
+    </p>
+
+    <p> For a full overview of my experience,
+      <a
+        href="/resume.pdf"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-emerald-400 hover:underline"
+      >
+        view my resume
+      </a>
+    </p>
+  </section>
+
+  <div class="mx-auto max-w-3xl px-4">
     <CurrentlyLearning items={topics} intervalMs={2200} title="Currently learning" />
-</div>
+  </div>
 
-<div class="mx-auto max-w-3xl px-4 mt-8">
+  <div class="mx-auto max-w-3xl px-4 mt-8">
     <BookStack currentBooks={currentlyReading} readBooks={recentlyRead} title="My Book Stack" />
-</div>
+  </div>
+
 </Base>
