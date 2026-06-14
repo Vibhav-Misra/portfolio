@@ -4,13 +4,13 @@ import CurrentlyLearning from '../components/CurrentlyLearning.astro';
 import BookStack from '../components/BookStack.astro';
 
 const topics = [
-  "MLflow",
-  "Probability Distributions",
-  "Exploratory Data Analysis",
-  "Linear Predictors",
-  "Correlation",
-  "Regression",
-  "Gradient Descent",
+  "Data Analytics",
+  "Machine Learning",
+  "Predictive Modeling",
+  "Business Intelligence",
+  "Operational Analytics",
+  "Data Visualization",
+  "End-to-End Data Products",
 ];
 
 const currentlyReading = [
@@ -22,14 +22,20 @@ const currentlyReading = [
   },
 
   {
-    title: "Angels and Demons",
-    author: "Dan Brown",
-    cover: "/images/covers/angelsAndDemons.jpg",
-    link: "https://en.wikipedia.org/wiki/Angels_%26_Demons",
-  },
+    title: "Pachinko",
+    author: "Min Jin Lee",
+    cover: "/images/covers/pachinko.jpg",
+    link: "https://en.wikipedia.org/wiki/Pachinko_(novel)",
+  }
 ];
 
 const recentlyRead = [
+  {
+    title: "Sharp Objects",
+    author: "Gillian Flynn",
+    cover: "/images/covers/sharpObjects.jpg",
+    link: "https://en.wikipedia.org/wiki/Sharp_Objects",
+  },
   {
     title: "Dark Places",
     author: "Gillian Flynn",
@@ -37,7 +43,7 @@ const recentlyRead = [
     link: "https://en.wikipedia.org/wiki/Dark_Places_(Flynn_novel)",
   },
   {
-    title: "'Salem's Lot'",
+    title: "'Salem's Lot",
     author: "Stephen King",
     cover: "/images/covers/salemsLot.jpg",
     link: "https://en.wikipedia.org/wiki/%27Salem%27s_Lot",
@@ -105,7 +111,7 @@ const recentlyRead = [
   </section>
 
   <div class="mx-auto max-w-3xl px-4">
-    <CurrentlyLearning items={topics} intervalMs={2200} title="Currently learning" />
+    <CurrentlyLearning items={topics} intervalMs={2200} title="Areas I am Working In" />
   </div>
 
   <div class="mx-auto max-w-3xl px-4 mt-8">

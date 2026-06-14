@@ -1,0 +1,305 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-5hce7sga> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Building an Economic Stress Early-Warning System, What the Accuracy Score Did Not Tell Me — Vibhav Misra</title><meta name="description" content="A walkthrough of how I approached an imbalanced economic-risk prediction problem."><link rel="icon" href="/favicon.svg"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..800&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet"><link rel="stylesheet" href="/_astro/Base.BeHpWfPX.css"></head> <body class="min-h-screen flex flex-col font-[Inter] bg-black text-white" data-astro-cid-5hce7sga> <header class="sticky top-0 z-50 backdrop-blur border-b border-white/10 bg-black/20" data-astro-cid-5hce7sga> <nav class="mx-auto max-w-6xl px-4 py-3 flex items-center justify-between" data-astro-cid-5hce7sga> <a href="/" class="text-xl font-semibold tracking-tight" data-astro-cid-5hce7sga>VM</a> <ul class="hidden md:flex gap-5 text-sm text-slate-300" data-astro-cid-5hce7sga> <li data-astro-cid-5hce7sga><a class="hover:text-white transition-colors" href="/projects/" data-astro-cid-5hce7sga>Projects</a></li><li data-astro-cid-5hce7sga><a class="hover:text-white transition-colors" href="/notebooks/" data-astro-cid-5hce7sga>Notebooks</a></li><li data-astro-cid-5hce7sga><a class="hover:text-white transition-colors" href="/visualizations/" data-astro-cid-5hce7sga>Viz</a></li><li data-astro-cid-5hce7sga><a class="hover:text-white transition-colors" href="/snippets/" data-astro-cid-5hce7sga>Snippets</a></li><li data-astro-cid-5hce7sga><a class="hover:text-white transition-colors" href="/blog/" data-astro-cid-5hce7sga>Blog</a></li><li data-astro-cid-5hce7sga><a class="hover:text-white transition-colors" href="/about" data-astro-cid-5hce7sga>About</a></li><li data-astro-cid-5hce7sga><a class="hover:text-white transition-colors" href="/contact" data-astro-cid-5hce7sga>Contact</a></li> </ul> <button id="menu-btn" class="md:hidden relative w-6 h-5 focus:outline-none nav-icon" aria-label="Toggle Menu" data-astro-cid-5hce7sga> <span data-astro-cid-5hce7sga></span> <span data-astro-cid-5hce7sga></span> <span data-astro-cid-5hce7sga></span> </button> </nav> <div id="mobile-menu" class="absolute top-full left-0 w-full opacity-0 md:hidden z-40" data-astro-cid-5hce7sga> <div class="mx-4 my-2 p-6 backdrop-blur bg-black/90 border border-white/10 rounded-2xl shadow-2xl" data-astro-cid-5hce7sga> <ul class="flex flex-col gap-6 text-lg font-medium text-slate-300" data-astro-cid-5hce7sga> <li data-astro-cid-5hce7sga><a class="hover:text-white block" href="/projects/" data-astro-cid-5hce7sga>Projects</a></li><li data-astro-cid-5hce7sga><a class="hover:text-white block" href="/notebooks/" data-astro-cid-5hce7sga>Notebooks</a></li><li data-astro-cid-5hce7sga><a class="hover:text-white block" href="/visualizations/" data-astro-cid-5hce7sga>Viz</a></li><li data-astro-cid-5hce7sga><a class="hover:text-white block" href="/snippets/" data-astro-cid-5hce7sga>Snippets</a></li><li data-astro-cid-5hce7sga><a class="hover:text-white block" href="/blog/" data-astro-cid-5hce7sga>Blog</a></li><li data-astro-cid-5hce7sga><a class="hover:text-white block" href="/about" data-astro-cid-5hce7sga>About</a></li><li data-astro-cid-5hce7sga><a class="hover:text-white block" href="/contact" data-astro-cid-5hce7sga>Contact</a></li> </ul> </div> </div> </header> <main class="flex-1" data-astro-cid-5hce7sga>  <article class="mx-auto max-w-3xl px-4 py-12 prose prose-invert"> <header class="mb-6"> <h1 class="mb-2">Building an Economic Stress Early-Warning System, What the Accuracy Score Did Not Tell Me</h1> <p class="text-sm text-slate-400">June 12, 2026</p> <p class="mt-2 text-slate-300">A walkthrough of how I approached an imbalanced economic-risk prediction problem.</p> </header> <p><strong>Hey guys!</strong></p>
+<p>It has been a while since I last wrote here.</p>
+<p>My previous blog post was about how I approach exploratory data analysis: the questions I ask, the checks I perform, and the mistakes that taught me to slow down before modeling.</p>
+<p>Since then, I have graduated with my M.S. in Data Science from Pace University, completed several new projects, and spent much more time thinking about a question that sounds simple but is actually very important:</p>
+<p><strong>How do we know whether a machine learning model is genuinely useful?</strong></p>
+<ul>
+<li>
+<p>Not whether it has a high score.</p>
+</li>
+<li>
+<p>Not whether it performs well on one test split.</p>
+</li>
+<li>
+<p>Not whether the confusion matrix looks impressive at first glance.</p>
+</li>
+<li>
+<p><strong>But whether it is solving the actual problem we built it for.</strong></p>
+</li>
+</ul>
+<p>This question became central while I was working on a project I called the - Global Economic Stress Early-Warning System.</p>
+<p>The goal was to build a model capable of identifying periods of elevated macroeconomic risk using historical economic indicators.</p>
+<p>At first, the project appeared to be a standard binary-classification problem:</p>
+<ul>
+<li>Normal economic conditions</li>
+<li>High-stress or crisis conditions</li>
+</ul>
+<p>But very quickly, I realized that the difficult part was not training a classifier.</p>
+<p>The difficult part was deciding what <strong>good performance</strong> should actually mean.</p>
+<p>Let’s get into it.</p>
+<hr/>
+<h2 id="1-the-problem-rare-events-are-the-events-we-care-about">1. The Problem: Rare Events Are the Events We Care About</h2>
+<p>Economic crises are important partly because they are unusual.</p>
+<p>Most historical periods are not classified as severe crises. That means the dataset naturally contained far more examples of normal conditions than high-stress conditions.</p>
+<p>This created a severe class-imbalance problem.</p>
+<p>Imagine a simplified dataset with:</p>
+<ul>
+<li>95 normal periods</li>
+<li>5 crisis periods</li>
+</ul>
+<p>A model that predicts normal every single time would achieve 95% accuracy.</p>
+<p>That sounds excellent.</p>
+<p>But it would detect exactly zero crises.</p>
+<p>For an early-warning system, that model would be completely useless.</p>
+<p>This was the first major lesson from the project:</p>
+<blockquote>
+<p>A metric can be mathematically correct and still be practically misleading.</p>
+</blockquote>
+<p>Accuracy answers the question:</p>
+<p><strong>How often was the model correct overall?</strong></p>
+<p>But the problem I cared about was closer to:</p>
+<p><strong>How many high-risk periods did the model successfully identify before they were missed?</strong></p>
+<p>Those are not the same question.</p>
+<hr/>
+<h2 id="2-starting-with-the-data">2. Starting With the Data</h2>
+<p>The project used historical macroeconomic indicators associated with financial and economic stress.</p>
+<p>Before building any model, I spent time examining:</p>
+<ul>
+<li>Class distribution</li>
+<li>Missing values</li>
+<li>Indicator ranges</li>
+<li>Temporal patterns</li>
+<li>Relationships between features</li>
+<li>Possible leakage from future information</li>
+<li>Structural differences across economic periods</li>
+</ul>
+<p>I also engineered features that could represent underlying stress more clearly.</p>
+<p>Two examples were:</p>
+<h3 id="yield-curve-inversion-tracking">Yield Curve Inversion Tracking</h3>
+<p>A yield curve inversion occurs when shorter-term interest rates exceed longer-term rates.</p>
+<p>It is frequently discussed as a warning signal of economic slowdown, but using it in a model requires more than simply adding one interest-rate column.</p>
+<p>I created features that captured the presence and behavior of yield-curve inversion over time.</p>
+<h3 id="economic-stress-index">Economic Stress Index</h3>
+<p>I also developed a custom Economic Stress Index, or ESI, to combine signals from multiple macroeconomic variables into a more structured representation of economic pressure.</p>
+<p>The purpose was not to replace the original features, but to provide the model with an additional summary of how different indicators were moving together.</p>
+<p>Feature engineering became especially important because crisis prediction is not simply about finding one unusually large or small number.</p>
+<p>It is often about identifying combinations of changes across several indicators.</p>
+<hr/>
+<h2 id="3-the-first-model-looked-better-than-it-was">3. The First Model Looked Better Than It Was</h2>
+<p>I began with several common classification models:</p>
+<ul>
+<li>Logistic Regression</li>
+<li>Random Forest</li>
+<li>XGBoost</li>
+</ul>
+<p>These gave me useful baselines.</p>
+<p>Some of the early results appeared promising, especially when viewed through accuracy.</p>
+<p>But once I examined the confusion matrix and class-specific performance, the picture became less impressive.</p>
+<p>A model could correctly classify most normal periods while still missing too many crisis periods.</p>
+<p>In a standard classification task, a few false negatives might be acceptable.</p>
+<p>In an early-warning system, a false negative means:</p>
+<blockquote>
+<p>The system saw a high-risk period and failed to raise a warning.</p>
+</blockquote>
+<p>That error is much more serious than incorrectly flagging one normal period as potentially risky.</p>
+<p>This changed how I evaluated the models.</p>
+<p>Instead of focusing mainly on accuracy, I paid much closer attention to:</p>
+<ul>
+<li>Recall</li>
+<li>Precision</li>
+<li>F1-score</li>
+<li>Confusion matrices</li>
+<li>Performance on the minority class</li>
+<li>Stability across time-based validation periods</li>
+</ul>
+<hr/>
+<h2 id="4-why-recall-became-so-important">4. Why Recall Became So Important</h2>
+<p>Recall measures the proportion of actual positive cases that the model identifies.</p>
+<p>In this project, the positive class represented high-stress or crisis conditions.</p>
+<p>The basic idea is:</p>
+<pre class="astro-code github-dark-dimmed" style="background-color:#22272e;color:#adbac7;overflow-x:auto" tabindex="0" data-language="text"><code><span class="line"><span>Recall = True Positives / (True Positives + False Negatives)</span></span></code></pre>
+<p>In simpler terms:</p>
+<blockquote>
+<p>Out of all the actual crisis periods, how many did the model detect?</p>
+</blockquote>
+<p>That made recall especially important.</p>
+<p>A higher-recall model may generate more false alarms, but it reduces the risk of completely overlooking real crisis events.</p>
+<p>Of course, maximizing recall without any limits is not enough either.</p>
+<p>A model that labels everything as a crisis would achieve perfect recall, but it would also produce so many false positives that nobody could trust it.</p>
+<p>So the real task became finding a sensible balance:</p>
+<ul>
+<li>Detect as many genuine stress events as possible</li>
+<li>Avoid producing an unusable number of false warnings</li>
+<li>Maintain consistent performance across historical periods</li>
+</ul>
+<p>This is where model evaluation became much more interesting than simply comparing accuracy scores.</p>
+<hr/>
+<h2 id="5-handling-class-imbalance">5. Handling Class Imbalance</h2>
+<p>Because crisis examples were limited, I explored ways to improve the representation of the minority class.</p>
+<p>Instead of relying only on conventional oversampling, I compared multiple deep generative approaches for tabular data:</p>
+<ul>
+<li>CTGAN</li>
+<li>TVAE</li>
+<li>Copula-based synthesis</li>
+</ul>
+<p>The purpose of these models was to generate synthetic high-risk observations that could help the classifier learn patterns associated with rare crisis conditions.</p>
+<p>This sounded straightforward in theory.</p>
+<p>In practice, synthetic data introduced an entirely new set of questions:</p>
+<ul>
+<li>Do the generated rows preserve realistic feature relationships?</li>
+<li>Are the synthetic examples genuinely diverse?</li>
+<li>Is the model learning economic structure or synthetic artifacts?</li>
+<li>Are extreme values being represented correctly?</li>
+<li>Does better training performance translate into better performance on real historical data?</li>
+</ul>
+<p>This taught me another important lesson:</p>
+<blockquote>
+<p>Generating more data does not automatically mean generating more information.</p>
+</blockquote>
+<p>Synthetic observations had to be treated as a modeling tool, not as unquestionable ground truth.</p>
+<p>I compared the behavior of the generated data, examined distributions, and evaluated whether each approach improved minority-class detection on real validation periods.</p>
+<hr/>
+<h2 id="6-why-random-train-test-splits-were-not-enough">6. Why Random Train-Test Splits Were Not Enough</h2>
+<p>One of the most important decisions in the project was how to validate the models.</p>
+<p>For many machine learning problems, we divide the data randomly into training and testing sets.</p>
+<p>But macroeconomic data is chronological.</p>
+<p>The past occurs before the future.</p>
+<p>A model should not be trained using information from a later economic period and then evaluated on an earlier one.</p>
+<p>Doing that can create an unrealistic evaluation and, in some cases, introduce temporal leakage.</p>
+<p>So I used chronological cross-validation.</p>
+<p>The general idea was:</p>
+<ol>
+<li>Train on earlier historical periods</li>
+<li>Validate on a later period</li>
+<li>Expand or move the training window</li>
+<li>Evaluate again on the next unseen period</li>
+</ol>
+<p>This better approximated how an early-warning system would work in reality.</p>
+<p>At any given point, the system would only have access to information available up to that time.</p>
+<p>This validation method was more demanding.</p>
+<p>Performance sometimes varied across folds because economic conditions do not remain constant forever.</p>
+<p>Relationships that appear useful in one period may weaken during another.</p>
+<p>But that variation was valuable information.</p>
+<p>A slightly lower but realistic score is much more useful than an impressive score produced by an unrealistic evaluation design.</p>
+<hr/>
+<h2 id="7-the-accuracyrecall-trade-off">7. The Accuracy–Recall Trade-Off</h2>
+<p>After testing several approaches, I found that no model dominated every metric.</p>
+<p>Some achieved stronger overall accuracy but missed too many high-risk observations.</p>
+<p>Others detected more crises but generated more false positives.</p>
+<p>The final workflow combined optimized XGBoost modeling with a jittering-based ensemble approach designed to improve robustness and minority-class detection.</p>
+<p>The resulting model achieved approximately:</p>
+<ul>
+<li><strong>94.6% accuracy</strong></li>
+<li><strong>Peak recall of 0.788 for high-risk detection</strong></li>
+</ul>
+<p>The accuracy was strong.</p>
+<p>But the recall figure was more meaningful to me.</p>
+<p>A recall of 0.788 meant that the model detected a substantial share of the high-risk observations instead of simply benefiting from the large number of normal periods.</p>
+<p>Still, that number should not be interpreted as the problem is solved.</p>
+<p>It means the model showed promise under the project’s dataset, feature definitions, and validation framework.</p>
+<p>A real economic early-warning system would require much more:</p>
+<ul>
+<li>Continuous monitoring</li>
+<li>Updated data</li>
+<li>Threshold calibration</li>
+<li>Scenario testing</li>
+<li>Explainability</li>
+<li>Domain-expert review</li>
+<li>Investigation of data revisions</li>
+<li>Careful treatment of policy and market regime changes</li>
+</ul>
+<p>This project was a predictive modeling exercise, not a claim that a machine learning model can perfectly forecast the next economic crisis.</p>
+<hr/>
+<h2 id="8-what-accuracy-hid-from-me">8. What Accuracy Hid From Me</h2>
+<p>Accuracy hid several important things.</p>
+<h3 id="1-it-hid-which-class-the-model-was-getting-right">1. It hid which class the model was getting right</h3>
+<p>A model can achieve high accuracy mainly by performing well on the majority class.</p>
+<p>That does not mean it understands the minority class.</p>
+<h3 id="2-it-hid-the-cost-of-false-negatives">2. It hid the cost of false negatives</h3>
+<p>Missing a crisis period is not equivalent to incorrectly flagging a normal period.</p>
+<p>The two errors have different consequences.</p>
+<h3 id="3-it-hid-instability-over-time">3. It hid instability over time</h3>
+<p>A single aggregate score can conceal large performance differences across validation periods.</p>
+<h3 id="4-it-hid-threshold-decisions">4. It hid threshold decisions</h3>
+<p>Classification probabilities must eventually be converted into class predictions.</p>
+<p>The default threshold of 0.5 is convenient, but it is not automatically the best threshold for every problem.</p>
+<h3 id="5-it-hid-whether-the-model-was-useful">5. It hid whether the model was useful</h3>
+<p>A model can be statistically impressive and operationally useless.</p>
+<p>The final question should always be:</p>
+<blockquote>
+<p>What decision will someone make using this prediction?</p>
+</blockquote>
+<hr/>
+<h2 id="9-mistakes-and-challenges-along-the-way">9. Mistakes and Challenges Along the Way</h2>
+<p>Like most of my projects, this one did not follow a perfectly clean path.</p>
+<p>Here are some of the challenges that changed how I approached the work.</p>
+<h3 id="mistake-1-being-impressed-by-accuracy-too-quickly">Mistake 1: Being impressed by accuracy too quickly</h3>
+<p>At first, seeing accuracy above 90% felt like a major success.</p>
+<p>Only after examining class-specific performance did I understand how incomplete that result was.</p>
+<h3 id="mistake-2-treating-imbalance-as-only-a-data-volume-problem">Mistake 2: Treating imbalance as only a data-volume problem</h3>
+<p>The minority class did not simply need more rows.</p>
+<p>It needed meaningful and realistic representation.</p>
+<p>Generating synthetic data was useful only when those observations preserved important economic relationships.</p>
+<h3 id="mistake-3-comparing-models-using-one-metric">Mistake 3: Comparing models using one metric</h3>
+<p>A single metric could not capture the complete behavior of the system.</p>
+<p>I needed to compare models through multiple views: recall, precision, confusion matrices, stability, and chronological performance.</p>
+<h3 id="mistake-4-underestimating-validation-design">Mistake 4: Underestimating validation design</h3>
+<p>The validation strategy was as important as the model architecture.</p>
+<p>A powerful model with poor validation can produce very convincing but unreliable results.</p>
+<h3 id="mistake-5-thinking-the-most-complex-model-must-win">Mistake 5: Thinking the most complex model must win</h3>
+<p>Complexity can help, but it does not guarantee usefulness.</p>
+<p>Logistic Regression remained valuable as an interpretable baseline, even when ensemble models achieved stronger predictive performance.</p>
+<hr/>
+<h2 id="10-what-i-would-improve-next">10. What I Would Improve Next</h2>
+<p>No project is ever truly finished.</p>
+<p>If I continued developing this system, I would focus on several areas.</p>
+<h3 id="better-probability-calibration">Better Probability Calibration</h3>
+<p>Instead of evaluating only final class predictions, I would examine whether predicted risk probabilities accurately reflect observed outcomes.</p>
+<h3 id="cost-sensitive-threshold-selection">Cost-Sensitive Threshold Selection</h3>
+<p>The classification threshold should reflect the relative cost of false negatives and false positives.</p>
+<p>For a risk-detection system, the default threshold may not be appropriate.</p>
+<h3 id="model-explainability">Model Explainability</h3>
+<p>I would add SHAP-based analysis to better understand:</p>
+<ul>
+<li>Which indicators contributed to each warning</li>
+<li>Whether feature importance remained stable over time</li>
+<li>How the model’s reasoning differed across crisis periods</li>
+</ul>
+<h3 id="regime-aware-modeling">Regime-Aware Modeling</h3>
+<p>Economic relationships change.</p>
+<p>A future version could explicitly model different economic regimes rather than assuming one stable relationship across the complete dataset.</p>
+<h3 id="expanded-external-validation">Expanded External Validation</h3>
+<p>Testing the system across additional countries, periods, or data sources would provide a stronger picture of generalizability.</p>
+<h3 id="monitoring-for-data-drift">Monitoring for Data Drift</h3>
+<p>A deployed system would need to identify when incoming data no longer resembles the historical data used for training.</p>
+<hr/>
+<h2 id="11-what-this-project-changed-about-my-approach">11. What This Project Changed About My Approach</h2>
+<p>Before this project, I understood conceptually that accuracy was not always the best metric.</p>
+<p>After this project, I understood it much more practically.</p>
+<p>I saw how easy it is to build a model that appears successful when the evaluation metric rewards the easiest behavior.</p>
+<p>I also learned that model development is not only about choosing algorithms.</p>
+<p>It is about making a chain of decisions:</p>
+<ul>
+<li>How should the target be defined?</li>
+<li>Which errors matter most?</li>
+<li>How should time be handled?</li>
+<li>What kind of synthetic data is realistic?</li>
+<li>Which metric represents the actual objective?</li>
+<li>How much instability is acceptable?</li>
+<li>How will the prediction be used?</li>
+</ul>
+<p>Every one of those choices affects whether the final system is meaningful.</p>
+<hr/>
+<h2 id="12-final-thoughts">12. Final Thoughts</h2>
+<p>The biggest lesson from this project was simple:</p>
+<blockquote>
+<p>The best-looking metric is not always the most important metric.</p>
+</blockquote>
+<p>For an early-warning system, getting most observations right is not enough.</p>
+<p>The model must recognize the rare events it was created to detect.</p>
+<p>Accuracy told me that the model performed well overall.</p>
+<p>Recall told me whether it was actually paying attention when the risk was highest.</p>
+<p>And chronological validation told me whether that performance had a chance of holding up beyond one convenient data split.</p>
+<p>The project made me more cautious about celebrating model scores and more interested in understanding the behavior behind them.</p>
+<p>Now, whenever I evaluate a model, I try to ask:</p>
+<ul>
+<li>What does this metric reward?</li>
+<li>What is it hiding?</li>
+<li>Which mistakes are most costly?</li>
+<li>Does the validation reflect real use?</li>
+<li>Would I trust this output to support an actual decision?</li>
+</ul>
+<p>Because a machine learning model is not useful simply because it is accurate.</p>
+<p>It is useful when its evaluation matches the problem it was built to solve.</p>
+<p>If you made it this far, here’s a cookie 🍪</p>
+<p>~Vibhav</p> </article>  </main> <footer class="border-t border-white/10 bg-black/10" data-astro-cid-5hce7sga> <div class="mx-auto max-w-6xl px-4 py-10 text-sm text-slate-400" data-astro-cid-5hce7sga> <p data-astro-cid-5hce7sga>© 2026 Vibhav Misra · <a class="underline hover:text-white" href="/blog/" data-astro-cid-5hce7sga>Blog</a></p> </div> </footer> <script type="module">const e=document.getElementById("menu-btn"),t=document.getElementById("mobile-menu");e.addEventListener("click",()=>{e.classList.toggle("open"),t.classList.toggle("active")});const s=t.querySelectorAll("a");s.forEach(n=>{n.addEventListener("click",()=>{e.classList.remove("open"),t.classList.remove("active")})});</script> </body> </html>

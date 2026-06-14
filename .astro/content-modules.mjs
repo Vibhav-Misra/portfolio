@@ -1,6 +1,7 @@
 
 export default new Map([
 ["src/content/blog/data-sources.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Fblog%2Fdata-sources.mdx&astroContentModuleFlag=true")],
+["src/content/blog/economic-stress-early-warning-system.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Fblog%2Feconomic-stress-early-warning-system.mdx&astroContentModuleFlag=true")],
 ["src/content/blog/eda-workflow.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Fblog%2Feda-workflow.mdx&astroContentModuleFlag=true")],
 ["src/content/blog/hello-world.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Fblog%2Fhello-world.mdx&astroContentModuleFlag=true")],
 ["src/content/projects/ask-vibhav-resume-chatbot.mdx", () => import("astro:content-layer-deferred-module?astro%3Acontent-layer-deferred-module=&fileName=src%2Fcontent%2Fprojects%2Fask-vibhav-resume-chatbot.mdx&astroContentModuleFlag=true")],
