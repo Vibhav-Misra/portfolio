@@ -1,0 +1,114 @@
+---
+title: Agentic Text-to-SQL Assistant for Operational Analytics
+date: "2026-10-21"
+summary: An enterprise-grade AI agent that translates natural language into executed SQL queries. Features LangGraph state machines, autonomous error correction, and Human-in-the-Loop (HITL) security.
+tags: ["Generative AI", "LangGraph", "Python", "SQL", "Streamlit", "Agentic RAG"]
+repo: https://github.com/Vibhav-Misra/agentic-sql-assistant
+demo: https://agentic-sql-assistant-fhyc6sxcqrptd623h7pdkz.streamlit.app/
+---
+
+◉ An end-to-end Generative AI application that empowers business users to interact with relational databases in plain English. The agent autonomously introspects the database schema, writes safe SQL, handles execution errors, and synthesizes final insights.
+
+◉ This project demonstrates a production-ready enterprise AI workflow: Tool Calling → Schema Introspection → Query Generation → Human-in-the-Loop (HITL) Approval → Data Visualization.
+
+---
+
+◉ **Quick Links**
+<p style="margin-top:1rem;"></p>
+
+1) [GitHub Repo](https://github.com/Vibhav-Misra/agentic-sql-assistant)  
+2) **Video Walkthrough:**  Coming Soon
+3) **Docs:**  
+     - [Technical Architecture & State Machine](https://github.com/Vibhav-Misra/agentic-sql-assistant/blob/main/docs/architecture.md)
+     - [Tool Definitions & Safety Constraints](https://github.com/Vibhav-Misra/agentic-sql-assistant/blob/main/docs/tool_definitions.md)  
+
+---
+
+◉ **Business Context**
+<p style="margin-top:1rem;"></p>
+
+While static dashboards are great for tracking high-level KPIs, business leaders constantly need answers to ad-hoc, granular questions (e.g., "What was the revenue drop in the West region last quarter?"). Fulfilling these requests manually creates massive bottlenecks for data analysts.
+
+LLMs offer a conversational interface to data, but standard text-to-SQL models are risky: they hallucinate table names, write invalid syntax, or execute dangerous queries. 
+
+This project solves that operational bottleneck by implementing an **Agentic Workflow**. Instead of just generating text, the LLM is equipped with restricted database tools and a cyclical reasoning process, ensuring it grounds its queries in reality and requires human authorization before touching the database.
+
+---
+
+◉ **What I Built**
+<p style="margin-top:1rem;"></p>
+
+- **LangGraph State Machine (The Brain)**
+  - Engineered a cyclic graph architecture routing the LLM between "reasoning" and "acting."
+  - Implemented `MemorySaver` checkpointer to maintain conversational history and handle follow-up queries.
+
+- **Custom Tool Ecosystem (The Hands)**
+  - `list_tables`: Scans metadata to discover available datasets.
+  - `get_schema`: Injects exact column names and data types into the LLM context to prevent hallucinations.
+  - `execute_query`: A restricted `SELECT`-only execution environment.
+  - `generate_chart`: A Python sandbox where the LLM writes Matplotlib code to visualize its SQL results.
+
+- **Human-in-the-Loop (HITL) Security**
+  - Configured LangGraph breakpoints to freeze the execution state right before the `execute_query` node.
+  - Forces a human approval step where the drafted SQL is audited before execution, guaranteeing zero unauthorized data access.
+
+- **Streamlit Analytics Terminal**
+  - Built a clean, enterprise-grade UI featuring system audit logs, real-time tool execution tracking, automated chart rendering, and one-click CSV data exports.
+
+---
+
+◉ **Application Preview**
+<p style="margin-top:1rem;"></p>
+
+- **System Introspection & Tool Calling**  
+  ![Tool Calling Log](public/images/visualizations/agent_tool_calling.png)
+
+- **Human-in-the-Loop SQL Approval**  
+  ![HITL Approval](public/images/visualizations/agent_hitl_approval.png)
+
+- **Automated Data Visualization**  
+  ![Matplotlib Chart Generation](public/images/visualizations/agent_chart_generation.png)
+
+*(See the video walkthrough for a live demonstration of the state machine.)*
+
+---
+
+◉ **Key Capabilities**
+<p style="margin-top:1rem;"></p>
+
+- **Schema-Grounded Generation:** The agent never guesses column names; it explores the live database schema first.
+- **Self-Correction Loop:** If PostgreSQL throws a syntax error, the agent reads the traceback and autonomously rewrites the query.
+- **Multi-Turn Memory:** Users can ask contextual follow-ups (e.g., "Now filter that chart to only show refunded orders").
+- **Dynamic File Export:** SQL execution results are instantly converted into downloadable CSVs via Pandas.
+
+---
+
+◉ **Tech Stack**
+<p style="margin-top:1rem;"></p>
+
+- **Orchestration:** LangGraph, Langchain
+- **LLM / GenAI:** OpenAI API (GPT-4o)
+- **Database:** PostgreSQL / SQLite (SQLAlchemy)
+- **Frontend UI:** Streamlit
+- **Data Processing & Visualization:** Pandas, Matplotlib
+
+---
+
+◉ **Workflow**
+<p style="margin-top:1rem;"></p>
+
+```bash
+# 1) Clone the repository and set up environment
+git clone [https://github.com/Vibhav-Misra/agentic-sql-assistant.git](https://github.com/Vibhav-Misra/agentic-sql-assistant.git)
+cd agentic-sql-assistant
+python -m venv venv
+source venv/bin/activate
+
+# 2) Install dependencies
+pip install -r requirements.txt
+
+# 3) Initialize the local operational database
+python setup_db.py
+
+# 4) Launch the Streamlit Terminal
+streamlit run app.py
