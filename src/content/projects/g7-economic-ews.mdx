@@ -1,0 +1,106 @@
+---
+title: Cross-Country Macroeconomic Early-Warning System (EWS) for G7 Economies
+date: "2026-04-10"
+summary: A global early-warning machine learning framework forecasting 6–12 month recession risks across G7 nations. Leverages FRED API panels, balanced ensemble modeling, and SHAP explainability.
+tags: ["Machine Learning", "Macroeconomics", "Explainable AI (SHAP)", "Python", "Time Series", "Financial Engineering"]
+---
+
+◉ An end-to-end macroeconomic risk monitoring platform designed to forecast economic downturns across the G7 economies (USA, Canada, UK, Germany, France, Italy, and Japan) with a 6-to-12-month forward predictive horizon.
+
+◉ This project bridges econometric forecasting and modern machine learning: Pooled Panel Data Ingestion → Temporal Feature Engineering → Class-Balanced Ensemble Modeling → Consensus Scoring → SHAP Explainable AI (XAI) Risk DNA.
+
+---
+
+◉ **Macroeconomic & Business Context**
+<p style="margin-top:1rem;"></p>
+
+Traditional recession forecasting typically relies either on single-country econometric time-series models (which overfit local cycles and lack exposure to varied policy shocks) or static lagging indicators that sound the alarm only after contractions begin. 
+
+Furthermore, central banks and institutional risk managers face a persistent trade-off: fast, high-sensitivity linear models produce too many false positives, while non-linear machine learning ensembles act as uninterpretable "black boxes" that decision-makers hesitate to trust.
+
+This project addresses these challenges by engineering a **Global Pooled Early-Warning System (EWS)**. By pooling multi-decade panel data across all seven advanced G7 economies, the system scales historical training exposure across diverse macroeconomic regimes (from 1970s stagflation to 2020 pandemic supply shocks) while delivering granular, local feature attribution via Tree-SHAP.
+
+---
+
+◉ **What I Built**
+<p style="margin-top:1rem;"></p>
+
+- **Automated G7 Macro Pipeline**
+  - Built an ingestion engine integrating with the Federal Reserve Economic Data (FRED) API, dynamically pulling quarterly real GDP, 10-year and 3-month sovereign yields, CPI baskets, and unemployment rates across all G7 countries.
+  - Resolved panel inconsistencies, historical data-start discrepancies (unbalanced panels), and numerical singularities (infinite values from rate-of-change division-by-zero).
+
+- **Leak-Free Predictive Target Engineering**
+  - Formulated a forward-looking recession target (`Target_EWS`): classified recession onset via two consecutive quarters of negative real GDP growth, shifted forward by 2 to 4 quarters (6–12 month predictive window).
+  - Applied strict single-quarter feature lags (`lag1_UN`, `lag1_Inflation`, `lag1_Yield_Spread`) across all nations to eliminate lookahead bias and ensure production-grade walk-forward validity.
+
+- **Dual-Model Consensus Engine**
+  - **Logistic Regression (High-Sensitivity Sensor):** Serves as an unconstrained detector capturing early signs of yield curve inversion and credit market distress.
+  - **Random Forest (Conservative Non-Linear Anchor):** Captures multi-variable interactions (e.g., labor market resilience offsetting inflationary pressure) while mitigating false positives.
+  - Implemented cost-sensitive learning (`class_weight='balanced'`) to overcome the severe class imbalance inherent in rare-event economic downturns.
+
+- **Explainable AI (XAI) & Attribution Framework**
+  - Integrated Tree-SHAP (SHapley Additive exPlanations) to decompose aggregated risk scores into constituent economic drivers.
+  - Generated country-specific "Risk DNA" visual profiles, demonstrating whether baseline probabilities are driven by structural labor distress, interest rate inversion, or runaway inflation.
+
+---
+
+◉ **System Visualizations & Previews**
+<p style="margin-top:1rem;"></p>
+
+- **Global Contagion & Risk Heatmap (2008 – 2026)**  
+  Synchronized visualization tracking cross-border spillover and historical systemic shocks.  
+  ![G7 Recession Risk Timeline](public\images\visualizations\g7_contagion_heatmap.png)
+
+- **Country Historical Risk Forecast & Backtesting**  
+  Backtest validation demonstrating consensus score spikes 6 - 12 months prior to actual recession bands across US economic history.  
+  ![US Historical EWS Forecast](public\images\visualizations\usa_historical_backtest.png)
+
+- **G7 Risk DNA: Explainability & Driver Attribution**  
+  Comparative SHAP waterfall/stacked analysis identifying why individual countries experience elevated stress vs. labor-backed stability.  
+  ![G7 Risk DNA Stack](public\images\visualizations\g7_risk_dna_shap.png)
+
+---
+
+◉ **Key Capabilities & Research Findings**
+<p style="margin-top:1rem;"></p>
+
+- **6-to-12-Month Actionable Lead Time:** Provides policy makers and portfolio managers a minimum 2-quarter window before economic contraction manifests in reported GDP.
+- **Cross-Country Harmonization:** Handles disparate reporting dates and series IDs across international statistical agencies through standardized resampling and forward fill protocols.
+- **Explainable Risk Profiling:** Distinguishes between localized vulnerabilities (e.g., Japanese industrial/yield pressures) versus broader macro buffers (e.g., US labor market resilience).
+- **Automated Data Export:** Generates multi-tab Excel datasets featuring structured quarterly time series alongside transposable cross-country descriptive statistics.
+
+---
+
+◉ **Tech Stack**
+<p style="margin-top:1rem;"></p>
+
+- **Core Language:** Python
+- **Data Engineering:** Pandas, NumPy, OpenPyXL
+- **Data Sources:** Federal Reserve Economic Data (FRED API / `fredapi`)
+- **Machine Learning:** Scikit-Learn (Logistic Regression, Random Forest, Metrics, Calibration)
+- **Model Explainability:** SHAP (SHapley Additive exPlanations)
+- **Visualization:** Matplotlib, Seaborn
+
+---
+
+◉ **Execution & Reproduction**
+<p style="margin-top:1rem;"></p>
+
+```bash
+# 1) Clone repository and setup environment
+git clone [https://github.com/Vibhav-Misra/g7-economic-ews.git](https://github.com/Vibhav-Misra/g7-economic-ews.git)
+cd g7-economic-ews
+python -m venv venv
+source venv/bin/activate
+
+# 2) Install dependencies
+pip install -r requirements.txt
+
+# 3) Configure FRED API Key
+export FRED_API_KEY="your_api_key_here"
+
+# 4) Run the ingestion and modeling pipeline
+python src/pipeline.py
+
+# 5) Generate country reports and export EDA datasets
+python src/visualizations.py
